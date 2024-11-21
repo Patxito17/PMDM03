@@ -38,6 +38,7 @@ android {
 dependencies {
 
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.ui.auth)
 
     implementation(libs.appcompat)
     implementation(libs.material)

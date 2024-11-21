@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "59042839724",
+    "project_id": "tupokedex-gom",
+    "storage_bucket": "tupokedex-gom.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59042839724:android:85403afc4b910ef92bf309",
+        "android_client_info": {
+          "package_name": "com.gortmol.tupokedex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59042839724-cif3ta7a1kiqk73m89l90t3s93tqs1eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gortmol.tupokedex",
+            "certificate_hash": "c2987a7f52f6a8bdeae7564028f1ff456e87a510"
+          }
+        },
+        {
+          "client_id": "59042839724-tmc7a0u2ts9av3o5qmf3r6rkrcvp64so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5rpDM76akcPyuWDeIoKKV6VltEmoX1tA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59042839724-tmc7a0u2ts9av3o5qmf3r6rkrcvp64so.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
