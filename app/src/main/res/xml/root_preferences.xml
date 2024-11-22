@@ -1,40 +1,39 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
-
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
+    <PreferenceCategory app:title="@string/languages">
 
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+            android:defaultValue="es"
+            android:entries="@array/language_options"
+            android:entryValues="@array/language_values"
+            android:key="pref_language"
+            android:summary="@string/pref_language_summary"
+            android:title="@string/language" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/settings_app">
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            android:defaultValue="false"
+            android:key="pref_delete_pokemon"
+            android:summary="@string/pref_delete_pokemon_summary"
+            android:title="@string/pref_delete_pokemon_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/account_header">
+    <PreferenceCategory app:title="@string/about_app">
 
-        <!-- Preferencia para cerrar sesión -->
+        <Preference
+            android:key="pref_about"
+            android:summary="@string/pref_about_summary"
+            android:title="@string/about" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/user">
+
         <Preference
             app:key="logout"
             app:summary="@string/logout_summary"
