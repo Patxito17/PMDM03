@@ -32,4 +32,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/account_header">
+
+        <!-- Preferencia para cerrar sesión -->
+        <Preference
+            app:key="logout"
+            app:summary="@string/logout_summary"
+            app:title="@string/logout_title" />
+
+    </PreferenceCategory>
+
+
 </PreferenceScreen>
