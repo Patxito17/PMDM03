@@ -32,7 +32,7 @@
     <string name="pref_delete_pokemon_title">Eliminación de Pokémon capturados</string>
     <string name="about_app">Sobre la App</string>
     <string name="pref_about_summary">Información sobre el desarrollador y la versión</string>
-    <string name="about">Acerca de...</string>
+    <string name="about">Acerca de…</string>
     <string name="user">Usuario</string>
     <string name="logout_summary">Cierra la sesión del usuario actual</string>
     <string name="logout_title">Cerrar sesión</string>
