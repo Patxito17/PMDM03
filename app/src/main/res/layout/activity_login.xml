@@ -12,6 +12,7 @@
     <ImageView
         android:layout_width="@dimen/login_image_size"
         android:layout_height="@dimen/login_image_size"
+        android:contentDescription="@string/login_image_content"
         android:src="@mipmap/ic_launcher_round"/>
 
     <EditText

@@ -6,6 +6,7 @@
     <string name="settings">Ajustes</string>
 
     <!-- Login Strings -->
+    <string name="login_image_content">Logo de la aplicación</string>
     <string name="hint_username">Correo electrónico</string>
     <string name="hint_password">Contraseña</string>
     <string name="btn_login">Iniciar sesión</string>
