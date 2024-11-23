@@ -40,6 +40,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ui.auth)
     implementation(libs.google.firebase.auth)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 
 
     implementation(libs.appcompat)
@@ -49,7 +51,6 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.recyclerview)
     implementation(libs.preference)
-    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

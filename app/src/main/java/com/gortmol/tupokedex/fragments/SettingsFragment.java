@@ -12,20 +12,29 @@ import com.gortmol.tupokedex.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    private static final String LANGUAGE_PREF_KEY = "language_switch";
+    private static final String DELETE_POKEMON_PREF_KEY = "delete_pokemon_switch";
+    private static final String ABOUT_PREF_KEY = "about";
+    private static final String LOGOUT_PREF_KEY = "logout";
+
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-        // Buscar la preferencia de cerrar sesión
-        Preference logoutPreference = findPreference("logout");
+        Preference prefLanguage = findPreference(LANGUAGE_PREF_KEY);
+
+        Preference prefDeletePokemon = findPreference(DELETE_POKEMON_PREF_KEY);
+
+        Preference prefAbout = findPreference(ABOUT_PREF_KEY);
+
+        Preference logoutPreference = findPreference(LOGOUT_PREF_KEY);
         if (logoutPreference != null) {
             logoutPreference.setOnPreferenceClickListener(preference -> {
-                // Cerrar sesión con Firebase
                 AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
-                    // Redirige al LoginActivity después de cerrar sesión
                     Intent intent = new Intent(requireContext(), LoginActivity.class);
                     startActivity(intent);
-                    requireActivity().finish(); // Finaliza la actividad actual
+                    requireActivity().finish();
                 });
                 return true;
             });
