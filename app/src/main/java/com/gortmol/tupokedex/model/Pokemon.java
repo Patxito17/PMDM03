@@ -38,7 +38,7 @@ public class Pokemon {
 
     public String getSpriteUrl() {
         if (spriteUrl == null) {
-            spriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + getIndex() + ".png";
+            spriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/" + getIndex() + ".gif";
         }
         return spriteUrl;
     }
