@@ -2,6 +2,8 @@ package com.gortmol.tupokedex.model;
 
 public class Pokemon {
 
+    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/";
+
     private String name;
     private String url;
     private String spriteUrl;
@@ -38,7 +40,7 @@ public class Pokemon {
 
     public String getSpriteUrl() {
         if (spriteUrl == null) {
-            spriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/" + getIndex() + ".gif";
+            spriteUrl = BASE_URL + getIndex() + ".png";
         }
         return spriteUrl;
     }
