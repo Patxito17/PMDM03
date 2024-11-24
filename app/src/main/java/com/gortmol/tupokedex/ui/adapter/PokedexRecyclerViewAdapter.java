@@ -22,9 +22,14 @@ import java.util.ArrayList;
 public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Pokemon> pokemons;
+    private OnPokemonClickListener listener;
 
-    public PokedexRecyclerViewAdapter() {
+    public interface OnPokemonClickListener {
+        void onPokemonClick(int position);
+    }
 
+    public PokedexRecyclerViewAdapter(OnPokemonClickListener listener) {
+        this.listener = listener;
     }
 
     public void setPokemons(ArrayList<Pokemon> pokemons) {
@@ -43,6 +48,12 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Pokemon currentPokemon = pokemons.get(position);
         holder.bind(currentPokemon);
+
+        holder.itemView.setOnClickListener(view -> {
+            if (listener != null) {
+                listener.onPokemonClick(position);
+            }
+        });
     }
 
     @Override

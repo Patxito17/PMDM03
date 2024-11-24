@@ -25,7 +25,7 @@ import retrofit2.Response;
 /**
  * A fragment representing a list of Items.
  */
-public class PokedexFragment extends Fragment implements Callback<PokemonResponse> {
+public class PokedexFragment extends Fragment implements Callback<PokemonResponse>, PokedexRecyclerViewAdapter.OnPokemonClickListener {
 
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
@@ -54,7 +54,7 @@ public class PokedexFragment extends Fragment implements Callback<PokemonRespons
     public void onResponse(Call<PokemonResponse> call, Response<PokemonResponse> response) {
         if (response.isSuccessful() && response.body() != null) {
             pokemonList = response.body().getResults();
-            adapter = new PokedexRecyclerViewAdapter();
+            adapter = new PokedexRecyclerViewAdapter(this);
             adapter.setPokemons(pokemonList);
             binding.listPokedex.setAdapter(adapter);
             binding.listPokedex.setHasFixedSize(true);
@@ -66,4 +66,19 @@ public class PokedexFragment extends Fragment implements Callback<PokemonRespons
     public void onFailure(Call<PokemonResponse> call, Throwable throwable) {
         Log.e("onFailure pokemons", "Error fetching data: " + throwable.getMessage(), throwable);
     }
+
+    @Override
+    public void onPokemonClick(int position) {
+        Pokemon pokemon = pokemonList.get(position);
+        if (!pokemon.isCaptured()) {
+            pokemon.setCaptured(true);
+
+            adapter.notifyItemChanged(position);
+        } else {
+            pokemon.setCaptured(false);
+
+            adapter.notifyItemChanged(position);
+        }
+    }
+
 }
