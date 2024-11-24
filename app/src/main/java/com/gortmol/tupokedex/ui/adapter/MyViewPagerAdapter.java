@@ -1,4 +1,4 @@
-package com.gortmol.tupokedex;
+package com.gortmol.tupokedex.ui.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

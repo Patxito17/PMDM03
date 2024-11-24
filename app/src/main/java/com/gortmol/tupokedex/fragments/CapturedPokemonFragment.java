@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.gortmol.tupokedex.R;
 import com.gortmol.tupokedex.fragments.placeholder.PlaceholderContent;
+import com.gortmol.tupokedex.ui.adapter.CapturedPokemonRecyclerViewAdapter;
 
 /**
  * A fragment representing a list of Items.

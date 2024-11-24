@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.gortmol.tupokedex.databinding.ActivityMainBinding;
+import com.gortmol.tupokedex.ui.adapter.MyViewPagerAdapter;
 
 import java.util.Objects;
 

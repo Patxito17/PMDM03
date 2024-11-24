@@ -1,28 +1,32 @@
-package com.gortmol.tupokedex.fragments;
+package com.gortmol.tupokedex.ui.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gortmol.tupokedex.data.PokemonPokedexData;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gortmol.tupokedex.databinding.FragmentPokedexBinding;
+import com.gortmol.tupokedex.model.Pokemon;
 
 import java.util.ArrayList;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PokemonPokedexData}.
+ * {@link RecyclerView.Adapter} that can display a {@link Pokemon}.
  */
 public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecyclerViewAdapter.ViewHolder> {
 
-    private final ArrayList<PokemonPokedexData> pokemons;
-    private final PokedexFragment pokedexFragment;
+    private ArrayList<Pokemon> pokemons;
 
-    public PokedexRecyclerViewAdapter(ArrayList<PokemonPokedexData> pokemons, PokedexFragment pokedexFragment) {
+    public PokedexRecyclerViewAdapter() {
+
+    }
+
+    public void setPokemons(ArrayList<Pokemon> pokemons) {
         this.pokemons = pokemons;
-        this.pokedexFragment = pokedexFragment;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -34,14 +38,8 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        PokemonPokedexData currentPokemon = pokemons.get(position);
+        Pokemon currentPokemon = pokemons.get(position);
         holder.bind(currentPokemon);
-
-        holder.itemView.setOnClickListener(view -> capturePokemon(currentPokemon, view));
-    }
-
-    private void capturePokemon(PokemonPokedexData currentPokemon, View view) {
-        pokedexFragment.capturePokemon(currentPokemon, view);
     }
 
     @Override
@@ -58,8 +56,8 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
             this.binding = binding;
         }
 
-        public void bind(PokemonPokedexData pokemon) {
-            binding.pokemonIndex.setText(pokemon.getIndex());
+        public void bind(Pokemon pokemon) {
+            binding.pokemonIndex.setText(String.format("%03d", pokemon.getIndex()));
             binding.pokemonName.setText(pokemon.getName());
             binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
         }

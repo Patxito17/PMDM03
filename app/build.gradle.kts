@@ -43,6 +43,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
 
+    implementation(libs.retrofit)
+    implementation(libs.squareup.converter.gson)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.appcompat)
     implementation(libs.material)
