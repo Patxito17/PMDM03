@@ -1,62 +1,72 @@
 package com.gortmol.tupokedex.fragments;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.gortmol.tupokedex.fragments.placeholder.PlaceholderContent.PlaceholderItem;
+import com.gortmol.tupokedex.data.PokemonPokedexData;
 import com.gortmol.tupokedex.databinding.FragmentPokedexBinding;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
+ * {@link RecyclerView.Adapter} that can display a {@link PokemonPokedexData}.
  */
 public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final ArrayList<PokemonPokedexData> pokemons;
+    private final PokedexFragment pokedexFragment;
 
-    public PokedexRecyclerViewAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    public PokedexRecyclerViewAdapter(ArrayList<PokemonPokedexData> pokemons, PokedexFragment pokedexFragment) {
+        this.pokemons = pokemons;
+        this.pokedexFragment = pokedexFragment;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentPokedexBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
+        FragmentPokedexBinding binding = FragmentPokedexBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        PokemonPokedexData currentPokemon = pokemons.get(position);
+        holder.bind(currentPokemon);
+
+        holder.itemView.setOnClickListener(view -> capturePokemon(currentPokemon, view));
+    }
+
+    private void capturePokemon(PokemonPokedexData currentPokemon, View view) {
+        pokedexFragment.capturePokemon(currentPokemon, view);
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return pokemons.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
 
-        public ViewHolder(FragmentPokedexBinding binding) {
+        private final FragmentPokedexBinding binding;
+
+        public ViewHolder(@NonNull FragmentPokedexBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            this.binding = binding;
+        }
+
+        public void bind(PokemonPokedexData pokemon) {
+            binding.pokemonIndex.setText(pokemon.getIndex());
+            binding.pokemonName.setText(pokemon.getName());
+            binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + binding.pokemonName.getText() + "'";
         }
     }
 }

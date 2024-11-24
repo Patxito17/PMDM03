@@ -36,5 +36,6 @@
     <string name="user">Usuario</string>
     <string name="logout_summary">Cierra la sesión del usuario actual</string>
     <string name="logout_title">Cerrar sesión</string>
+    <string name="captured">Capturado</string>
 
 </resources>

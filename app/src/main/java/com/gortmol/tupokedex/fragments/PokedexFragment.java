@@ -1,72 +1,56 @@
 package com.gortmol.tupokedex.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gortmol.tupokedex.R;
-import com.gortmol.tupokedex.fragments.placeholder.PlaceholderContent;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.gortmol.tupokedex.data.PokemonPokedexData;
+import com.gortmol.tupokedex.databinding.FragmentPokedexListBinding;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
  */
 public class PokedexFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private FragmentPokedexListBinding binding;
+    private ArrayList<PokemonPokedexData> pokemonList;
+    private PokedexRecyclerViewAdapter adapter;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public PokedexFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static PokedexFragment newInstance(int columnCount) {
-        PokedexFragment fragment = new PokedexFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pokedex_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new PokedexRecyclerViewAdapter(PlaceholderContent.ITEMS));
-        }
-        return view;
+        // Para borrar
+        pokemonList = new ArrayList<>();
+        pokemonList.add(new PokemonPokedexData("Pikachu", "025", true));
+        pokemonList.add(new PokemonPokedexData("Bulbasaur", "001", false));
+
+
+        binding = FragmentPokedexListBinding.inflate(inflater, container, false);
+        adapter = new PokedexRecyclerViewAdapter(pokemonList, this);
+        binding.listPokedex.setAdapter(adapter);
+        binding.listPokedex.setLayoutManager(new LinearLayoutManager(getContext()));
+        return binding.getRoot();
+    }
+
+    public void capturePokemon(PokemonPokedexData currentPokemon, View view) {
     }
 }
