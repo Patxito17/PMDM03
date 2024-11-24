@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.squareup.converter.gson)
     implementation(libs.logging.interceptor)
+    implementation(libs.picasso)
 
     implementation(libs.appcompat)
     implementation(libs.material)

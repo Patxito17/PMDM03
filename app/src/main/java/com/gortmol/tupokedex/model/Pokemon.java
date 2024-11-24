@@ -4,6 +4,7 @@ public class Pokemon {
 
     private String name;
     private String url;
+    private String spriteUrl;
     private boolean isCaptured;
 
     public Pokemon() {
@@ -34,6 +35,14 @@ public class Pokemon {
             throw new IllegalArgumentException("The URL does not contain a valid numeric index: " + url, e);
         }
     }
+
+    public String getSpriteUrl() {
+        if (spriteUrl == null) {
+            spriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + getIndex() + ".png";
+        }
+        return spriteUrl;
+    }
+
 
     public boolean isCaptured() {
         return isCaptured;
