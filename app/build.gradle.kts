@@ -41,7 +41,8 @@ dependencies {
     implementation(libs.firebase.ui.auth)
     implementation(libs.google.firebase.auth)
     implementation(libs.firebase.auth)
-    implementation("com.google.firebase:firebase-admin:1.32.0")
+    implementation(libs.google.firebase.firestore)
+
 
     implementation(libs.retrofit)
     implementation(libs.squareup.converter.gson)
