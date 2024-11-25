@@ -13,6 +13,18 @@ public class PokemonCaptured {
     private double weight; // The weight of this Pokémon in hectograms
     private double height; // The height of this Pokémon in decimetres
 
+    public PokemonCaptured() {
+    }
+
+    public PokemonCaptured(String name, int id, ArrayList<String> imageTypes, double weight, double height) {
+        this.name = name;
+        this.id = id;
+        this.imageTypes = imageTypes;
+        this.weight = weight;
+        this.height = height;
+        setImageUrl();
+    }
+
     public String getName() {
         return name;
     }

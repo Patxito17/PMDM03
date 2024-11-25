@@ -10,26 +10,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.gortmol.tupokedex.data.FirestoreHelper;
+import com.gortmol.tupokedex.data.PokeApiHelper;
 import com.gortmol.tupokedex.databinding.FragmentPokedexListBinding;
-import com.gortmol.tupokedex.io.PokemonApiAdapter;
-import com.gortmol.tupokedex.io.response.PokemonResponse;
 import com.gortmol.tupokedex.model.Pokemon;
+import com.gortmol.tupokedex.model.PokemonCaptured;
 import com.gortmol.tupokedex.ui.adapter.PokedexRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * A fragment representing a list of Items.
  */
-public class PokedexFragment extends Fragment implements Callback<PokemonResponse>, PokedexRecyclerViewAdapter.OnPokemonClickListener {
+public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdapter.OnPokemonClickListener {
+
+    private static final String TAG = "PokedexFragment";
 
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
     private PokedexRecyclerViewAdapter adapter;
+    private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     public PokedexFragment() {
     }
@@ -37,9 +39,6 @@ public class PokedexFragment extends Fragment implements Callback<PokemonRespons
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Call<PokemonResponse> call = PokemonApiAdapter.getApiService().getPokemonList(0, 150);
-        call.enqueue(this);
     }
 
     @Nullable
@@ -47,38 +46,67 @@ public class PokedexFragment extends Fragment implements Callback<PokemonRespons
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPokedexListBinding.inflate(inflater, container, false);
+
+        PokeApiHelper.getInstance().getPokemonList(0, 150, new PokeApiHelper.PokemonListCallback() {
+            @Override
+            public void onSuccess(ArrayList<Pokemon> pokemonList) {
+                PokedexFragment.this.pokemonList = pokemonList;
+                adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
+                adapter.setPokemons(pokemonList);
+                binding.listPokedex.setAdapter(adapter);
+                binding.listPokedex.setHasFixedSize(true);
+                Log.d(TAG, "Lista de Pokémon obtenida: " + pokemonList.size());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "Error al obtener la lista de Pokémon: " + e.getMessage(), e);
+            }
+        });
+
+        setPokemonCapturedStatus();
         return binding.getRoot();
     }
 
-    @Override
-    public void onResponse(Call<PokemonResponse> call, Response<PokemonResponse> response) {
-        if (response.isSuccessful() && response.body() != null) {
-            pokemonList = response.body().getResults();
-            adapter = new PokedexRecyclerViewAdapter(this);
-            adapter.setPokemons(pokemonList);
-            binding.listPokedex.setAdapter(adapter);
-            binding.listPokedex.setHasFixedSize(true);
-            Log.d("onResponse pokemons", "Size of pokemons: " + pokemonList.size());
+    private void setPokemonCapturedStatus() {
+        if (user != null) {
+            FirestoreHelper.getInstance().getCapturedPokemonIds(user, pokemonIds -> {
+                for (Pokemon pokemon : pokemonList) {
+                    if (pokemonIds.contains(String.valueOf(pokemon.getIndex()))) {
+                        pokemon.setCaptured(true);
+                    } else {
+                        pokemon.setCaptured(false);
+                    }
+                    adapter.notifyItemChanged(pokemonList.indexOf(pokemon));
+                }
+            });
         }
-    }
-
-    @Override
-    public void onFailure(Call<PokemonResponse> call, Throwable throwable) {
-        Log.e("onFailure pokemons", "Error fetching data: " + throwable.getMessage(), throwable);
     }
 
     @Override
     public void onPokemonClick(int position) {
         Pokemon pokemon = pokemonList.get(position);
-        if (!pokemon.isCaptured()) {
-            pokemon.setCaptured(true);
 
-            adapter.notifyItemChanged(position);
-        } else {
-            pokemon.setCaptured(false);
+        PokeApiHelper.getInstance().getPokemonById(pokemon.getIndex(), new PokeApiHelper.PokemonDetailsCallback() {
+            @Override
+            public void onSuccess(PokemonCaptured pokemonCaptured) {
+                if (!pokemon.isCaptured()) {
+                    pokemon.setCaptured(true);
+                    FirestoreHelper.getInstance().addPokemon(pokemonCaptured, user);
+                    Log.d("PokedexFragment", "Pokémon capturado: " + pokemonCaptured.getName());
+                } else {
+                    pokemon.setCaptured(false);
+                    FirestoreHelper.getInstance().deletePokemon(pokemonCaptured, user);
+                    Log.d("PokedexFragment", "Pokémon liberado: " + pokemonCaptured.getName());
+                }
 
-            adapter.notifyItemChanged(position);
-        }
+                adapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("PokedexFragment", "Error al obtener detalles del Pokémon: " + e.getMessage(), e);
+            }
+        });
     }
-
 }
