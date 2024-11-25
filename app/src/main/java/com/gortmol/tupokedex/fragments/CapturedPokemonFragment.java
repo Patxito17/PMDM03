@@ -8,18 +8,30 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gortmol.tupokedex.R;
 import com.gortmol.tupokedex.fragments.placeholder.PlaceholderContent;
+import com.gortmol.tupokedex.io.PokemonApiAdapter;
+import com.gortmol.tupokedex.io.response.PokemonDetailsResponse;
+import com.gortmol.tupokedex.model.PokemonCaptured;
 import com.gortmol.tupokedex.ui.adapter.CapturedPokemonRecyclerViewAdapter;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
  */
-public class CapturedPokemonFragment extends Fragment {
+public class CapturedPokemonFragment extends Fragment implements Callback<PokemonDetailsResponse> {
+
+    private ArrayList<PokemonCaptured> pokemonList;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -33,23 +45,13 @@ public class CapturedPokemonFragment extends Fragment {
     public CapturedPokemonFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static CapturedPokemonFragment newInstance(int columnCount) {
-        CapturedPokemonFragment fragment = new CapturedPokemonFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
+        Call<PokemonDetailsResponse> call = PokemonApiAdapter.getApiService().getPokemonDetails(6);
+        call.enqueue(this);
+
     }
 
     @Override
@@ -69,5 +71,27 @@ public class CapturedPokemonFragment extends Fragment {
             recyclerView.setAdapter(new CapturedPokemonRecyclerViewAdapter(PlaceholderContent.ITEMS));
         }
         return view;
+    }
+
+    @Override
+    public void onResponse(Call<PokemonDetailsResponse> call, Response<PokemonDetailsResponse> response) {
+        if (response.isSuccessful() && response.body() != null) {
+            PokemonCaptured pokemon = new PokemonCaptured();
+            pokemon.setName(response.body().getName());
+            pokemon.setId(response.body().getId());
+            pokemon.setImageUrl();
+            pokemon.setImageTypes(response.body().getTypeImages());
+            pokemon.setWeight(response.body().getWeight());
+            pokemon.setHeight(response.body().getHeight());
+            Log.d("onResponse pokemons captured details",
+                    String.format("Name: %s\nId: %d\nImageUrl: %s\nTypes: %s\nWeight: %.2f\nHeight: %.2f\n",
+                            pokemon.getName(), pokemon.getId(), pokemon.getSpriteUrl(), pokemon.getImageTypes(), pokemon.getWeight(), pokemon.getHeight()));
+        }
+
+    }
+
+    @Override
+    public void onFailure(Call<PokemonDetailsResponse> call, Throwable throwable) {
+        Log.e("onFailure pokemons captured details", "Error fetching data: " + throwable.getMessage(), throwable);
     }
 }
