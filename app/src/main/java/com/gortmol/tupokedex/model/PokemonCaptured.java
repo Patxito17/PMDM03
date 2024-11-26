@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PokemonCaptured {
 
-    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
+    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/";
 
     private String name;
     private int id;

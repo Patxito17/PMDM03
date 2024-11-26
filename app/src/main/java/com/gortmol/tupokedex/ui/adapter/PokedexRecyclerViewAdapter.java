@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gortmol.tupokedex.R;
 import com.gortmol.tupokedex.databinding.FragmentPokedexBinding;
 import com.gortmol.tupokedex.model.Pokemon;
 import com.squareup.picasso.Picasso;
@@ -69,7 +68,7 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
         }
 
         public void bind(Pokemon pokemon) {
-            binding.pokemonIndex.setText(String.format("#%03d", pokemon.getIndex()));
+            binding.pokemonIndex.setText(String.valueOf(pokemon.getId()));
             binding.pokemonName.setText(pokemon.getName());
             binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
             Picasso.with(binding.getRoot().getContext()).load(pokemon.getSpriteUrl()).into(binding.pokemonSprite);

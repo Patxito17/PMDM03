@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class PokemonDetailsResponse {
 
-    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/sword-shield/";
+    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/";
 
     private int id;
     private String name;

@@ -39,7 +39,7 @@
     <string name="captured">Capturado</string>
 
     <!-- Pokedex and CapturedPokemon Strings -->
-    <string name="height">Altura</string>
-    <string name="weight">Peso</string>
+    <string name="height">Altura:</string>
+    <string name="weight">Peso:</string>
 
 </resources>

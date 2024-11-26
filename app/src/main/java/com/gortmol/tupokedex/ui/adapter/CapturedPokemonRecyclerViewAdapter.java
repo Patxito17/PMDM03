@@ -69,12 +69,13 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
         }
 
         public void bind(PokemonCaptured currentPokemon) {
-            Context context = binding.getRoot().getContext();
 
             Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getSpriteUrl()).into(binding.pokemonImage);
-            binding.idAndName.setText(String.format("#%03d %s", currentPokemon.getId(), currentPokemon.getName()));
-            binding.height.setText(String.format("%s: %.2f m", binding.getRoot().getContext().getString(R.string.height), currentPokemon.getHeight()));
-            binding.weight.setText(String.format("%s: %.2f kg", binding.getRoot().getContext().getString(R.string.weight), currentPokemon.getWeight()));            Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(0)).into(binding.abilityImage1);
+            binding.id.setText(String.valueOf(currentPokemon.getId()));
+            binding.name.setText(currentPokemon.getName());
+            binding.height.setText(String.valueOf(currentPokemon.getHeight()));
+            binding.weight.setText(String.valueOf(currentPokemon.getWeight()));
+            Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(0)).into(binding.abilityImage1);
             if (currentPokemon.getImageTypes().size() > 1) {
                 Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(1)).into(binding.abilityImage2);
             }
@@ -82,7 +83,7 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
 
         @Override
         public String toString() {
-            return super.toString() + " '" + binding.idAndName.getText() + "'";
+            return super.toString() + " '" + binding.name.getText() + "'";
         }
 
     }

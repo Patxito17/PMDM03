@@ -29,7 +29,7 @@ public class Pokemon {
         this.url = url;
     }
 
-    public int getIndex() {
+    public int getId() {
         String[] urlParts = url.split("/");
         try {
             return Integer.parseInt(urlParts[urlParts.length - 1]);
@@ -40,7 +40,7 @@ public class Pokemon {
 
     public String getSpriteUrl() {
         if (spriteUrl == null) {
-            spriteUrl = BASE_URL + getIndex() + ".png";
+            spriteUrl = BASE_URL + getId() + ".png";
         }
         return spriteUrl;
     }

@@ -73,7 +73,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         if (user != null) {
             FirestoreHelper.getInstance().getCapturedPokemonIds(user, pokemonIds -> {
                 for (Pokemon pokemon : pokemonList) {
-                    if (pokemonIds.contains(String.valueOf(pokemon.getIndex()))) {
+                    if (pokemonIds.contains(String.valueOf(pokemon.getId()))) {
                         pokemon.setCaptured(true);
                     } else {
                         pokemon.setCaptured(false);
@@ -88,7 +88,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     public void onPokemonClick(int position) {
         Pokemon pokemon = pokemonList.get(position);
 
-        PokeApiHelper.getInstance().getPokemonById(pokemon.getIndex(), new PokeApiHelper.PokemonDetailsCallback() {
+        PokeApiHelper.getInstance().getPokemonById(pokemon.getId(), new PokeApiHelper.PokemonDetailsCallback() {
             @Override
             public void onSuccess(PokemonCaptured pokemonCaptured) {
                 if (!pokemon.isCaptured()) {
