@@ -122,6 +122,7 @@ public class FirestoreHelper {
         String userId = user.getUid();
 
         db.collection("users").document(userId).collection("captured_pokemons")
+                // .orderBy("id", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     ArrayList<PokemonCaptured> pokemonCapturedList = new ArrayList<>();
