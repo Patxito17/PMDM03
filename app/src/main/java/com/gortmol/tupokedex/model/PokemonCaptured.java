@@ -8,7 +8,7 @@ public class PokemonCaptured {
 
     private String name;
     private int id;
-    private String imageUrl;
+    private String spriteUrl;
     private ArrayList<String> imageTypes; // A url list with type images
     private double weight; // The weight of this Pokémon in hectograms
     private double height; // The height of this Pokémon in decimetres
@@ -42,12 +42,16 @@ public class PokemonCaptured {
     }
 
     public String getSpriteUrl() {
-        return imageUrl;
+        return spriteUrl;
+    }
+
+    public void setSpriteUrl(String spriteUrl) {
+        this.spriteUrl = spriteUrl;
     }
 
     public void setImageUrl() {
-        if (imageUrl == null) {
-            imageUrl = BASE_URL + id + ".png";
+        if (spriteUrl == null) {
+            spriteUrl = BASE_URL + id + ".png";
         }
     }
 

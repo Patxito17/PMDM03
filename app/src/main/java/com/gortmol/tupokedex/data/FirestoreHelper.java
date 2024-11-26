@@ -13,9 +13,7 @@ import java.util.function.Consumer;
 public class FirestoreHelper {
 
     private static final String TAG = "FirestoreHelper";
-
     private static FirestoreHelper instance;
-
     private final FirebaseFirestore db;
 
     private FirestoreHelper() {
@@ -110,6 +108,33 @@ public class FirestoreHelper {
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Error al obtener los IDs de los Pokémon: " + e.getMessage());
+                    callback.accept(new ArrayList<>());
+                });
+    }
+
+    public void getPokemonCapturedList(FirebaseUser user, Consumer<ArrayList<PokemonCaptured>> callback) {
+        if (user == null) {
+            Log.e(TAG, "Error: Usuario no autenticado");
+            callback.accept(new ArrayList<>());
+            return;
+        }
+
+        String userId = user.getUid();
+
+        db.collection("users").document(userId).collection("captured_pokemons")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<PokemonCaptured> pokemonCapturedList = new ArrayList<>();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        PokemonCaptured pokemon = documentSnapshot.toObject(PokemonCaptured.class);
+                        pokemon.setImageUrl();
+                        pokemonCapturedList.add(pokemon);
+                    }
+                    callback.accept(pokemonCapturedList);
+                    Log.d(TAG, "Pokémons capturados obtenidos: " + pokemonCapturedList.size());
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error al obtener los Pokémon capturados: " + e.getMessage());
                     callback.accept(new ArrayList<>());
                 });
     }

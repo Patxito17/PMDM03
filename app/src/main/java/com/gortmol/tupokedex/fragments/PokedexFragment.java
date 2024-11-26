@@ -55,6 +55,8 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
                 adapter.setPokemons(pokemonList);
                 binding.listPokedex.setAdapter(adapter);
                 binding.listPokedex.setHasFixedSize(true);
+                setPokemonCapturedStatus();
+
                 Log.d(TAG, "Lista de Pokémon obtenida: " + pokemonList.size());
             }
 
@@ -64,7 +66,6 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
             }
         });
 
-        setPokemonCapturedStatus();
         return binding.getRoot();
     }
 
