@@ -204,7 +204,30 @@ public class FirestoreHelper {
                 });
     }
 
+    public void listenToCapturedPokemonIds(FirebaseUser user, OnCapturedIdsFetched callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons")
+                .addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error al escuchar cambios en los Pokémon capturados: ", e);
+                        return;
+                    }
+                    ArrayList<String> capturedIds = new ArrayList<>();
+                    if (snapshot != null && !snapshot.isEmpty()) {
+                        for (DocumentSnapshot document : snapshot.getDocuments()) {
+                            capturedIds.add(document.getId());
+                        }
+                        callback.onCapturedIdsFetched(capturedIds);
+                    }
+                });
+    }
+
     public interface FirestoreCallback<T> {
         void onComplete(T result);
+    }
+
+    public interface OnCapturedIdsFetched {
+        void onCapturedIdsFetched(ArrayList<String> capturedIds);
     }
 }

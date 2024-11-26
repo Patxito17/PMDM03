@@ -48,6 +48,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
             public void onSuccess(ArrayList<Pokemon> pokemons) {
                 PokedexFragment.this.pokemonList = pokemons;
                 adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
+                setInitialPokemonCapturedStatus();
                 setPokemonCapturedStatus();
                 adapter.setPokemons(PokedexFragment.this.pokemonList);
                 binding.listPokedex.setAdapter(adapter);
@@ -66,7 +67,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         return binding.getRoot();
     }
 
-    private void setPokemonCapturedStatus() {
+    private void setInitialPokemonCapturedStatus() {
         if (user != null) {
             FirestoreHelper.getInstance().getCapturedPokemonIds(user, capturedIds -> {
                 for (Pokemon pokemon : pokemonList) {
@@ -77,6 +78,25 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
             });
         }
     }
+
+    private void setPokemonCapturedStatus() {
+        if (user != null) {
+            FirestoreHelper.getInstance().listenToCapturedPokemonIds(user, new FirestoreHelper.OnCapturedIdsFetched() {
+                @Override
+                public void onCapturedIdsFetched(ArrayList<String> capturedIds) {
+                    for (Pokemon pokemon : pokemonList) {
+                        boolean isCaptured = capturedIds.contains(String.valueOf(pokemon.getId()));
+                        if (pokemon.isCaptured() != isCaptured) {
+                            pokemon.setCaptured(isCaptured);  // Cambiamos el estado solo si ha cambiado
+                            adapter.notifyItemChanged(pokemonList.indexOf(pokemon));
+                        }
+                    }
+                    Log.d(TAG, "Estados de Pokémon en Pokédex actualizados en tiempo real.");
+                }
+            });
+        }
+    }
+
     @Override
     public void onPokemonClick(int position) {
         Pokemon pokemon = pokemonList.get(position);
