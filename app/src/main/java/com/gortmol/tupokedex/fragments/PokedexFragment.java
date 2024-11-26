@@ -22,8 +22,8 @@ import java.util.ArrayList;
 public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdapter.OnPokemonClickListener {
 
     private static final String TAG = "PokedexFragment";
-    private static int POKEMON_OFFSET = 0;
-    private static int POKEMON_LIMIT = 150;
+    private static final int POKEMON_OFFSET = 0;
+    private static final int POKEMON_LIMIT = 150;
 
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
