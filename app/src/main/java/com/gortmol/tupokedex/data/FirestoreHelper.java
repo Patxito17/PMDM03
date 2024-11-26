@@ -3,9 +3,10 @@ package com.gortmol.tupokedex.data;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.gortmol.tupokedex.model.PokemonCaptured;
+import com.gortmol.tupokedex.model.Pokemon;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -27,7 +28,7 @@ public class FirestoreHelper {
         return instance;
     }
 
-    public void addPokemon(PokemonCaptured pokemon, FirebaseUser user) {
+    public void addPokemon(Pokemon pokemon, FirebaseUser user) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             return;
@@ -39,7 +40,8 @@ public class FirestoreHelper {
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Pokemon añadido con éxito: " + pokemon.getName()))
                 .addOnFailureListener(e -> Log.e(TAG, "Error al añadir el Pokemon: " + e.getMessage()));
     }
-    public void deletePokemon(PokemonCaptured pokemon, FirebaseUser user) {
+
+    public void deletePokemon(Pokemon pokemon, FirebaseUser user) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             return;
@@ -52,7 +54,7 @@ public class FirestoreHelper {
                 .addOnFailureListener(e -> Log.e(TAG, "Error al eliminar el Pokemon: " + e.getMessage()));
     }
 
-    public void getPokemonById(String pokemonId, FirebaseUser user, Consumer<PokemonCaptured> callback) {
+    public void getPokemonById(String pokemonId, FirebaseUser user, Consumer<Pokemon> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             callback.accept(null);
@@ -64,12 +66,12 @@ public class FirestoreHelper {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        PokemonCaptured pokemon = documentSnapshot.toObject(PokemonCaptured.class);
+                        Pokemon pokemon = documentSnapshot.toObject(Pokemon.class);
                         if (pokemon != null) {
-                            pokemon.setImageUrl(); // Asegurar que la URL de la imagen se genere correctamente
+                            pokemon.setImageUrl();
                             callback.accept(pokemon);
                         } else {
-                            Log.e(TAG, "Error: No se pudo convertir el documento en PokemonCaptured");
+                            Log.e(TAG, "Error: No se pudo convertir el documento en Pokemon");
                             callback.accept(null);
                         }
                     } else {
@@ -108,7 +110,7 @@ public class FirestoreHelper {
                 });
     }
 
-    public void getPokemonCapturedList(FirebaseUser user, Consumer<ArrayList<PokemonCaptured>> callback) {
+    public void getPokemonCapturedList(FirebaseUser user, Consumer<ArrayList<Pokemon>> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             callback.accept(new ArrayList<>());
@@ -120,9 +122,9 @@ public class FirestoreHelper {
                 // .orderBy("id", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<PokemonCaptured> pokemonCapturedList = new ArrayList<>();
+                    ArrayList<Pokemon> pokemonCapturedList = new ArrayList<>();
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        PokemonCaptured pokemon = documentSnapshot.toObject(PokemonCaptured.class);
+                        Pokemon pokemon = documentSnapshot.toObject(Pokemon.class);
                         pokemon.setImageUrl();
                         pokemonCapturedList.add(pokemon);
                     }
@@ -133,5 +135,76 @@ public class FirestoreHelper {
                     Log.e(TAG, "Error al obtener los Pokémon capturados: " + e.getMessage());
                     callback.accept(new ArrayList<>());
                 });
+    }
+
+    public void listenToCapturedPokemonIds(FirebaseUser user, FirestoreCallback<ArrayList<String>> callback) {
+        if (user == null) {
+            Log.e(TAG, "Error: Usuario no autenticado");
+            return;
+        }
+
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemon")
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.e("FirestoreHelper", "Error al escuchar IDs de Pokémon capturados: ", e);
+                        return;
+                    }
+                    if (snapshots != null) {
+                        ArrayList<String> capturedIds = new ArrayList<>();
+                        for (DocumentSnapshot document : snapshots.getDocuments()) {
+                            capturedIds.add(document.getId());
+                        }
+                        callback.onComplete(capturedIds);
+                    }
+                });
+    }
+
+    public void listenToCapturedPokemons(FirebaseUser user, Consumer<ArrayList<Pokemon>> callback) {
+        if (user == null) {
+            Log.e(TAG, "Error: Usuario no autenticado");
+            callback.accept(new ArrayList<>());
+            return;
+        }
+
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons")
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error al escuchar los Pokémon capturados: ", e);
+                        return;
+                    }
+                    if (snapshots != null) {
+                        ArrayList<Pokemon> capturedPokemonList = new ArrayList<>();
+                        for (DocumentSnapshot document : snapshots.getDocuments()) {
+                            Pokemon pokemon = document.toObject(Pokemon.class);
+                            pokemon.setImageUrl();
+                            capturedPokemonList.add(pokemon);
+                        }
+                        callback.accept(capturedPokemonList);
+                    }
+                });
+    }
+
+    public void containsPokemon(String pokemonId, FirebaseUser user, Consumer<Boolean> callback) {
+        if (user == null) {
+            Log.e(TAG, "Error: Usuario no autenticado");
+            return;
+        }
+
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons").document(pokemonId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    callback.accept(documentSnapshot.exists());
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error al verificar si el Pokémon está capturado: " + e.getMessage());
+                    callback.accept(false);
+                });
+    }
+
+    public interface FirestoreCallback<T> {
+        void onComplete(T result);
     }
 }

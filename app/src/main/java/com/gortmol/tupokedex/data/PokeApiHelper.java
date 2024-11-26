@@ -8,10 +8,8 @@ import com.gortmol.tupokedex.io.PokemonApiAdapter;
 import com.gortmol.tupokedex.io.response.PokemonDetailsResponse;
 import com.gortmol.tupokedex.io.response.PokemonResponse;
 import com.gortmol.tupokedex.model.Pokemon;
-import com.gortmol.tupokedex.model.PokemonCaptured;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +36,7 @@ public class PokeApiHelper {
             @Override
             public void onResponse(@NonNull Call<PokemonResponse> call, @NonNull Response<PokemonResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Pokemon> pokemonList = response.body().getResults();
+                    ArrayList<Pokemon> pokemonList = response.body().getResults();
                     callback.onSuccess(new ArrayList<>(pokemonList));
                     Log.d(TAG, "Pokémon obtenidos: " + pokemonList.size());
                 } else {
@@ -62,9 +60,10 @@ public class PokeApiHelper {
             public void onResponse(@NonNull Call<PokemonDetailsResponse> call, @NonNull Response<PokemonDetailsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     PokemonDetailsResponse details = response.body();
-                    PokemonCaptured pokemonCaptured = new PokemonCaptured(
+                    Pokemon pokemonCaptured = new Pokemon(
                             details.getName(),
                             details.getId(),
+                            details.getUrl(),
                             details.getTypeImages(),
                             details.getWeight(),
                             details.getHeight());
@@ -90,7 +89,7 @@ public class PokeApiHelper {
     }
 
     public interface PokemonDetailsCallback {
-        void onSuccess(PokemonCaptured pokemonCaptured);
+        void onSuccess(Pokemon pokemon);
         void onError(Exception e);
     }
 }

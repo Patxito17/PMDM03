@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class PokemonDetailsResponse {
 
-    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/";
+    private final String IMAGE_TYPE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/";
+    private final String BASE_POKEMON_URL = "https://pokeapi.co/api/v2/pokemon/";
 
     private int id;
     private String name;
@@ -23,11 +24,15 @@ public class PokemonDetailsResponse {
     }
 
     public String getName() {
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl(){
+        return BASE_POKEMON_URL + id + "/";
     }
 
     public int getHeight() {
@@ -63,7 +68,7 @@ public class PokemonDetailsResponse {
         typeImages = new ArrayList<>();
         for (TypeSlot typeSlot : types) {
             String url = typeSlot.getType().getUrl();
-            typeImages.add(BASE_URL + getTypeId(url) + ".png");
+            typeImages.add(IMAGE_TYPE_URL + getTypeId(url) + ".png");
         }
     }
 

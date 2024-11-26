@@ -1,20 +1,36 @@
 package com.gortmol.tupokedex.model;
 
+import java.util.ArrayList;
+
 public class Pokemon {
 
-    private final String BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/";
+    private final String IMAGE_BASE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/";
 
     private String name;
     private String url;
-    private String spriteUrl;
-    private boolean isCaptured;
+    private int id;
+    private String imageUrl;
+    private ArrayList<String> imageTypes; // A url list with type images
+    private double weight; // The weight of this Pokémon in hectograms
+    private double height; // The height of this Pokémon in decimetres
+    private boolean isCaptured; // Whether the Pokémon is captured or not
 
     public Pokemon() {
         this.isCaptured = false;
     }
 
+    public Pokemon(String name, int id, String url, ArrayList<String> imageTypes, double weight, double height) {
+        this.name = name;
+        this.id = id;
+        this.url = url;
+        this.imageTypes = imageTypes;
+        this.weight = weight;
+        this.height = height;
+        setImageUrl();
+    }
+
     public String getName() {
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
+        return name;
     }
 
     public void setName(String name) {
@@ -30,28 +46,62 @@ public class Pokemon {
     }
 
     public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setId() {
         String[] urlParts = url.split("/");
-        try {
-            return Integer.parseInt(urlParts[urlParts.length - 1]);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("The URL does not contain a valid numeric index: " + url, e);
+        id = Integer.parseInt(urlParts[urlParts.length - 1]);
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setImageUrl() {
+        if (imageUrl == null) {
+            imageUrl = IMAGE_BASE_URL + id + ".png";
         }
     }
 
-    public String getSpriteUrl() {
-        if (spriteUrl == null) {
-            spriteUrl = BASE_URL + getId() + ".png";
-        }
-        return spriteUrl;
+    public ArrayList<String> getImageTypes() {
+        return imageTypes;
     }
 
+    public void setImageTypes(ArrayList<String> imageTypes) {
+        this.imageTypes = imageTypes;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
 
     public boolean isCaptured() {
         return isCaptured;
     }
 
-    public void setCaptured(boolean captured) {
-        isCaptured = captured;
+    public void setCaptured(boolean isCaptured) {
+        this.isCaptured = isCaptured;
     }
 
 }

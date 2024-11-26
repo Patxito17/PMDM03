@@ -68,10 +68,12 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
         }
 
         public void bind(Pokemon pokemon) {
+            pokemon.setId();
+            pokemon.setImageUrl();
             binding.pokemonIndex.setText(String.valueOf(pokemon.getId()));
             binding.pokemonName.setText(pokemon.getName());
             binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
-            Picasso.with(binding.getRoot().getContext()).load(pokemon.getSpriteUrl()).into(binding.pokemonSprite);
+            Picasso.with(binding.getRoot().getContext()).load(pokemon.getImageUrl()).into(binding.pokemonSprite);
         }
 
         @Override

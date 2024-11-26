@@ -1,25 +1,23 @@
 package com.gortmol.tupokedex.ui.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gortmol.tupokedex.R;
 import com.gortmol.tupokedex.databinding.FragmentCapturedPokemonBinding;
-import com.gortmol.tupokedex.model.PokemonCaptured;
+import com.gortmol.tupokedex.model.Pokemon;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PokemonCaptured}.
+ * {@link RecyclerView.Adapter} that can display a {@link Pokemon}.
  */
 public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<CapturedPokemonRecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<PokemonCaptured> pokemonCaptureds;
+    private ArrayList<Pokemon> pokemonCaptureds;
     private CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener listener;
 
     public interface OnPokemonClickListener {
@@ -30,7 +28,7 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
         this.listener = listener;
     }
 
-    public void setPokemons(ArrayList<PokemonCaptured> pokemonCaptureds) {
+    public void setPokemons(ArrayList<Pokemon> pokemonCaptureds) {
         this.pokemonCaptureds = pokemonCaptureds;
         notifyDataSetChanged();
     }
@@ -44,7 +42,7 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        PokemonCaptured currentPokemon = pokemonCaptureds.get(position);
+        Pokemon currentPokemon = pokemonCaptureds.get(position);
         holder.bind(currentPokemon);
 
         holder.itemView.setOnClickListener(view -> {
@@ -68,9 +66,9 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
             this.binding = binding;
         }
 
-        public void bind(PokemonCaptured currentPokemon) {
+        public void bind(Pokemon currentPokemon) {
 
-            Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getSpriteUrl()).into(binding.pokemonImage);
+            Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageUrl()).into(binding.pokemonImage);
             binding.id.setText(String.valueOf(currentPokemon.getId()));
             binding.name.setText(currentPokemon.getName());
             binding.height.setText(String.valueOf(currentPokemon.getHeight()));

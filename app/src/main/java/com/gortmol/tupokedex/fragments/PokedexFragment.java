@@ -16,7 +16,6 @@ import com.gortmol.tupokedex.data.FirestoreHelper;
 import com.gortmol.tupokedex.data.PokeApiHelper;
 import com.gortmol.tupokedex.databinding.FragmentPokedexListBinding;
 import com.gortmol.tupokedex.model.Pokemon;
-import com.gortmol.tupokedex.model.PokemonCaptured;
 import com.gortmol.tupokedex.ui.adapter.PokedexRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -49,14 +48,13 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
 
         PokeApiHelper.getInstance().getPokemonList(0, 150, new PokeApiHelper.PokemonListCallback() {
             @Override
-            public void onSuccess(ArrayList<Pokemon> pokemonList) {
-                PokedexFragment.this.pokemonList = pokemonList;
+            public void onSuccess(ArrayList<Pokemon> pokemons) {
+                PokedexFragment.this.pokemonList = pokemons;
                 adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
-                adapter.setPokemons(pokemonList);
+                setPokemonCapturedStatus();
+                adapter.setPokemons(PokedexFragment.this.pokemonList);
                 binding.listPokedex.setAdapter(adapter);
                 binding.listPokedex.setHasFixedSize(true);
-                setPokemonCapturedStatus();
-
                 Log.d(TAG, "Lista de Pokémon obtenida: " + pokemonList.size());
             }
 
@@ -66,31 +64,29 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
             }
         });
 
+
+
         return binding.getRoot();
     }
 
     private void setPokemonCapturedStatus() {
         if (user != null) {
-            FirestoreHelper.getInstance().getCapturedPokemonIds(user, pokemonIds -> {
+            FirestoreHelper.getInstance().getCapturedPokemonIds(user, capturedIds -> {
                 for (Pokemon pokemon : pokemonList) {
-                    if (pokemonIds.contains(String.valueOf(pokemon.getId()))) {
-                        pokemon.setCaptured(true);
-                    } else {
-                        pokemon.setCaptured(false);
-                    }
+                    pokemon.setCaptured(capturedIds.contains(String.valueOf(pokemon.getId())));
                     adapter.notifyItemChanged(pokemonList.indexOf(pokemon));
                 }
+                Log.d(TAG, "Estados de Pokémon en Pokédex actualizados al cargar.");
             });
         }
     }
-
     @Override
     public void onPokemonClick(int position) {
         Pokemon pokemon = pokemonList.get(position);
 
         PokeApiHelper.getInstance().getPokemonById(pokemon.getId(), new PokeApiHelper.PokemonDetailsCallback() {
             @Override
-            public void onSuccess(PokemonCaptured pokemonCaptured) {
+            public void onSuccess(Pokemon pokemonCaptured) {
                 if (!pokemon.isCaptured()) {
                     pokemon.setCaptured(true);
                     FirestoreHelper.getInstance().addPokemon(pokemonCaptured, user);
@@ -98,7 +94,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
                 } else {
                     pokemon.setCaptured(false);
                     FirestoreHelper.getInstance().deletePokemon(pokemonCaptured, user);
-                    Log.d("PokedexFragment", "Pokémon liberado: " + pokemonCaptured.getName());
+                    Log.d("PokedexFragment", "Pokémon liberado: " + pokemon.getName());
                 }
 
                 adapter.notifyItemChanged(position);

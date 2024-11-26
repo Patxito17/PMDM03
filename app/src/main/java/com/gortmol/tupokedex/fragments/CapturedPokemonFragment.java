@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.gortmol.tupokedex.data.FirestoreHelper;
+import com.gortmol.tupokedex.data.PokeApiHelper;
 import com.gortmol.tupokedex.databinding.FragmentCapturedPokemonListBinding;
-import com.gortmol.tupokedex.model.PokemonCaptured;
+import com.gortmol.tupokedex.model.Pokemon;
 import com.gortmol.tupokedex.ui.adapter.CapturedPokemonRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     private static final String TAG = "CapturedPokemonFragment";
 
     private FragmentCapturedPokemonListBinding binding;
-    private ArrayList<PokemonCaptured> pokemonList;
+    private ArrayList<Pokemon> pokemonList;
     private CapturedPokemonRecyclerViewAdapter adapter;
     private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -46,13 +47,14 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
         binding = FragmentCapturedPokemonListBinding.inflate(inflater, container, false);
 
         if (user != null) {
-            FirestoreHelper.getInstance().getPokemonCapturedList(user, pokemonList -> {
-                CapturedPokemonFragment.this.pokemonList = pokemonList;
-                adapter = new CapturedPokemonRecyclerViewAdapter(CapturedPokemonFragment.this);
-                adapter.setPokemons(pokemonList);
-                binding.listCapturedPokemon.setAdapter(adapter);
-                binding.listCapturedPokemon.setHasFixedSize(true);
-                Log.d(TAG, "Obtenida lista de pokemons capturados: " + pokemonList.size());
+            FirestoreHelper.getInstance().listenToCapturedPokemons(user, updatedList -> {
+                this.pokemonList = updatedList;
+                if (adapter == null) {
+                    adapter = new CapturedPokemonRecyclerViewAdapter(this);
+                    binding.listCapturedPokemon.setAdapter(adapter);
+                }
+                adapter.setPokemons(updatedList);
+                Log.d(TAG, "Lista de Pokémon capturados actualizada en tiempo real.");
             });
         }
 
