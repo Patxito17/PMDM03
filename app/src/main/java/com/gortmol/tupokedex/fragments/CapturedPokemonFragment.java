@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.gortmol.tupokedex.data.FirestoreHelper;
-import com.gortmol.tupokedex.data.PokeApiHelper;
 import com.gortmol.tupokedex.databinding.FragmentCapturedPokemonListBinding;
 import com.gortmol.tupokedex.model.Pokemon;
 import com.gortmol.tupokedex.ui.adapter.CapturedPokemonRecyclerViewAdapter;
@@ -27,7 +26,6 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     private FragmentCapturedPokemonListBinding binding;
     private ArrayList<Pokemon> pokemonList;
     private CapturedPokemonRecyclerViewAdapter adapter;
-    private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     public CapturedPokemonFragment() {
     }
@@ -43,6 +41,12 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
                              Bundle savedInstanceState) {
         binding = FragmentCapturedPokemonListBinding.inflate(inflater, container, false);
 
+        loadCapturedPokemons(FirebaseAuth.getInstance().getCurrentUser());
+
+        return binding.getRoot();
+    }
+
+    private void loadCapturedPokemons(FirebaseUser user) {
         if (user != null) {
             FirestoreHelper.getInstance().listenToCapturedPokemons(user, updatedList -> {
                 this.pokemonList = updatedList;
@@ -55,8 +59,8 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
             });
         }
 
-        return binding.getRoot();
     }
+
 
     @Override
     public void onPokemonClick(int position) {
