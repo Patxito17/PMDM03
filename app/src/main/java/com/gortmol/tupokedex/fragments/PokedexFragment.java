@@ -22,6 +22,8 @@ import java.util.ArrayList;
 public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdapter.OnPokemonClickListener {
 
     private static final String TAG = "PokedexFragment";
+    private static int POKEMON_OFFSET = 0;
+    private static int POKEMON_LIMIT = 150;
 
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
@@ -42,13 +44,13 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
 
         binding = FragmentPokedexListBinding.inflate(inflater, container, false);
 
-        loadPokemonsList(0, 150);
+        loadPokemonsList(POKEMON_OFFSET, POKEMON_LIMIT);
 
         return binding.getRoot();
     }
 
     public void loadPokemonsList(int offset, int limit) {
-        PokeApiHelper.getInstance().getPokemonList(0, 150, new PokeApiHelper.PokemonListCallback() {
+        PokeApiHelper.getInstance().getPokemonList(offset, limit, new PokeApiHelper.PokemonListCallback() {
             @Override
             public void onSuccess(ArrayList<Pokemon> pokemons) {
                 adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
