@@ -20,9 +20,6 @@ import com.gortmol.tupokedex.ui.adapter.CapturedPokemonRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-/**
- * A fragment representing a list of Items.
- */
 public class CapturedPokemonFragment extends Fragment implements CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener {
 
     private static final String TAG = "CapturedPokemonFragment";
