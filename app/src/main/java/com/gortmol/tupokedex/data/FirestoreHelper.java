@@ -33,9 +33,8 @@ public class FirestoreHelper {
             return;
         }
 
-        String userId = user.getUid();
-
-        db.collection("users").document(userId).collection("captured_pokemons").document(String.valueOf(pokemon.getId()))
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons").document(String.valueOf(pokemon.getId()))
                 .set(pokemon)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Pokemon añadido con éxito: " + pokemon.getName()))
                 .addOnFailureListener(e -> Log.e(TAG, "Error al añadir el Pokemon: " + e.getMessage()));
@@ -46,9 +45,8 @@ public class FirestoreHelper {
             return;
         }
 
-        String userId = user.getUid();
-
-        db.collection("users").document(userId).collection("captured_pokemons").document(String.valueOf(pokemon.getId()))
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons").document(String.valueOf(pokemon.getId()))
                 .delete()
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Pokemon eliminado: " + pokemon.getId()))
                 .addOnFailureListener(e -> Log.e(TAG, "Error al eliminar el Pokemon: " + e.getMessage()));
@@ -61,9 +59,8 @@ public class FirestoreHelper {
             return;
         }
 
-        String userId = user.getUid();
-
-        db.collection("users").document(userId).collection("captured_pokemons").document(pokemonId)
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons").document(pokemonId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -93,9 +90,8 @@ public class FirestoreHelper {
             return;
         }
 
-        String userId = user.getUid();
-
-        db.collection("users").document(userId).collection("captured_pokemons")
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     ArrayList<String> pokemonIds = new ArrayList<>();
@@ -119,9 +115,8 @@ public class FirestoreHelper {
             return;
         }
 
-        String userId = user.getUid();
-
-        db.collection("users").document(userId).collection("captured_pokemons")
+        db.collection("users").document(user.getUid())
+                .collection("captured_pokemons")
                 // .orderBy("id", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
