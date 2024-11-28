@@ -4,9 +4,9 @@
     <PreferenceCategory app:title="@string/languages">
 
         <ListPreference
-            android:defaultValue="es"
             android:entries="@array/language_options"
             android:entryValues="@array/language_values"
+            android:icon="@drawable/ic_language"
             android:key="pref_language"
             android:summary="@string/pref_language_summary"
             android:title="@string/language" />
@@ -15,17 +15,47 @@
 
     <PreferenceCategory app:title="@string/settings_app">
 
+        <ListPreference
+            android:entries="@array/pokemon_generation_options"
+            android:entryValues="@array/pokemon_generation_values"
+            android:icon="@drawable/ic_pokemon_generation"
+            android:key="pref_pokemon_generation"
+            android:summary="Selecciona la generación de Pokémon que aparece en la Pokédex"
+            android:title="Generación Pokémon" />
+
         <SwitchPreferenceCompat
-            android:defaultValue="false"
+            android:icon="@drawable/ic_delete_pokemon"
             android:key="pref_delete_pokemon"
             android:summary="@string/pref_delete_pokemon_summary"
             android:title="@string/pref_delete_pokemon_title" />
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Orden de los pokémon capturados">
+
+        <ListPreference
+            android:entries="@array/pokemons_order_asc_desc_options"
+            android:entryValues="@array/pokemons_order_asc_desc_values"
+            android:icon="@drawable/ic_order_asc_desc"
+            android:key="pref_pokemons_order_asc_desc"
+            android:summary="@string/pref_pokemons_order_asc_desc_summary"
+            android:title="@string/pref_pokemons_order_asc_desc_title" />
+
+        <ListPreference
+            android:entries="@array/pokemons_order_by_options"
+            android:entryValues="@array/pokemons_order_by_values"
+            android:icon="@drawable/ic_order_by"
+            android:key="pref_pokemons_order_by"
+            android:summary="@string/pref_pokemons_order_by_summary"
+            android:title="@string/pref_pokemons_order_by_title" />
+
+    </PreferenceCategory>
+
+
     <PreferenceCategory app:title="@string/about_app">
 
         <Preference
+            android:icon="@drawable/ic_about"
             android:key="pref_about"
             android:summary="@string/pref_about_summary"
             android:title="@string/about" />
@@ -35,6 +65,7 @@
     <PreferenceCategory app:title="@string/user">
 
         <Preference
+            android:icon="@drawable/ic_logout"
             app:key="logout"
             app:summary="@string/logout_summary"
             app:title="@string/logout_title" />

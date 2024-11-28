@@ -28,8 +28,18 @@
     <string name="pref_language_summary">Selecciona el idioma de la aplicación</string>
     <string name="language">Idioma</string>
     <string name="settings_app">Ajustes de la App</string>
-    <string name="pref_delete_pokemon_summary">Activa o desactiva la eliminación de Pokémon desde la pestaña de Pokémon Capturados</string>
+    <string name="pref_delete_pokemon_summary">Activa o desactiva la eliminación de Pokémon en las pestañas de capturados y pokédex</string>
     <string name="pref_delete_pokemon_title">Eliminación de Pokémon capturados</string>
+    <string name="pref_pokemons_order_asc_desc_summary">Selecciona el orden de la lista de Pokémon capturados</string>
+    <string name="pref_pokemons_order_asc_desc_title">Ascendente o descendente</string>
+    <string name="ascending">Ascendente</string>
+    <string name="descending">Descendente</string>
+    <string name="pref_pokemons_order_by_summary">Elige el criterio de ordenadicón</string>
+    <string name="pref_pokemons_order_by_title">Tipo de orden</string>
+    <string name="by_id">Según número en la pokédex</string>
+    <string name="by_name">Según nombre</string>
+    <string name="by_height">Según altura</string>
+    <string name="by_weight">Según peso</string>
     <string name="about_app">Sobre la App</string>
     <string name="pref_about_summary">Información sobre el desarrollador y la versión</string>
     <string name="about">Acerca de…</string>
@@ -37,6 +47,10 @@
     <string name="logout_summary">Cierra la sesión del usuario actual</string>
     <string name="logout_title">Cerrar sesión</string>
     <string name="captured">Capturado</string>
+
+    <!-- Settings Toast Strings -->
+    <string name="language_changed">Idioma cambiado correctamente</string>
+
 
     <!-- Pokedex and CapturedPokemon Strings -->
     <string name="height">Altura:</string>

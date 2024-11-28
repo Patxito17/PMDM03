@@ -1,12 +1,64 @@
 <resources>
     <!-- Language Preference -->
     <string-array name="language_options">
-        <item>Español</item>
-        <item>Inglés</item>
+        <item>@string/spanish</item>
+        <item>@string/english</item>
     </string-array>
 
     <string-array name="language_values">
         <item>es</item>
         <item>en</item>
     </string-array>
+
+    <string-array name="pokemon_generation_options">
+        <item>Primera (Kanto)</item>
+        <item>Segunda (Johto)</item>
+        <item>Tercera (Hoenn)</item>
+        <item>Cuarta (Sinnoh)</item>
+        <item>Quinta (Unova)</item>
+        <item>Sexta (Kalos)</item>
+        <item>Séptima (Alola)</item>
+        <item>Octava (Galar)</item>
+        <item>Novena (Paldea)</item>
+    </string-array>
+
+    <string-array name="pokemon_generation_values">
+        <item>0-151</item>
+        <item>151-100</item>
+        <item>251-135</item>
+        <item>386-107</item>
+        <item>493-156</item>
+        <item>649-72</item>
+        <item>721-88</item>
+        <item>809-96</item>
+        <item>905-112</item>
+    </string-array>
+
+
+    <!-- Delete Pokemon Preference -->
+    <string-array name="pokemons_order_by_options">
+        <item>@string/by_id</item>
+        <item>@string/by_name</item>
+        <item>@string/by_height</item>
+        <item>@string/by_weight</item>
+    </string-array>
+
+    <string-array name="pokemons_order_by_values">
+        <item>id</item>
+        <item>name</item>
+        <item>height</item>
+        <item>weight</item>
+    </string-array>
+
+    <!-- Pokemons Order Asc Desc Preference -->
+    <string-array name="pokemons_order_asc_desc_options">
+        <item>@string/ascending</item>
+        <item>@string/descending</item>
+    </string-array>
+
+    <string-array name="pokemons_order_asc_desc_values">
+        <item>ascending</item>
+        <item>descending</item>
+    </string-array>
+
 </resources>

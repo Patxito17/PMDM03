@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main Strings -->
+    <string name="app_name">Your Pokédex</string>
+    <string name="captured_pokemon">Captured Pokémon</string>
+    <string name="pokedex">Pokédex</string>
+    <string name="settings">Settings</string>
+
+    <!-- Login Strings -->
+    <string name="login_image_content">App Logo</string>
+    <string name="hint_username">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Log In</string>
+    <string name="btn_register_email_password">Sign up with email and password</string>
+    <string name="btn_register_google">Log in or sign up with Google</string>
+    <string name="sign_in_cancelled">Sign in cancelled</string>
+    <string name="no_internet_connection">Internet connection unavailable</string>
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="empty_fields">Username and/or password are empty</string>
+    <string name="sign_in_failed">Sign in failed</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_length">Password must be at least 6 characters</string>
+    <string name="password_error">Password must contain at least lowercase letters and numbers</string>
+
+    <!-- Settings Strings -->
+    <string name="languages">Languages</string>
+    <string name="spanish">Spanish</string>
+    <string name="english">English</string>
+    <string name="pref_language_summary">Select the app language</string>
+    <string name="language">Language</string>
+    <string name="settings_app">App Settings</string>
+    <string name="pref_delete_pokemon_summary">Enable or disable Pokémon deletion in the captured and pokédex tabs</string>
+    <string name="pref_delete_pokemon_title">Captured Pokémon Deletion</string>
+    <string name="pref_pokemons_order_asc_desc_summary">Select the order of the captured Pokémon list</string>
+    <string name="pref_pokemons_order_asc_desc_title">Ascending or Descending</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="pref_pokemons_order_by_summary">Choose the sorting criteria</string>
+    <string name="pref_pokemons_order_by_title">Sort By</string>
+    <string name="by_id">By Pokédex number</string>
+    <string name="by_name">By name</string>
+    <string name="by_height">By height</string>
+    <string name="by_weight">By weight</string>
+    <string name="about_app">About the App</string>
+    <string name="pref_about_summary">Information about the developer and version</string>
+    <string name="about">About…</string>
+    <string name="user">User</string>
+    <string name="logout_summary">Log out of the current user session</string>
+    <string name="logout_title">Log Out</string>
+    <string name="captured">Captured</string>
+
+    <!-- Pokedex and CapturedPokemon Strings -->
+    <string name="height">Height:</string>
+    <string name="weight">Weight:</string>
+
+</resources>
