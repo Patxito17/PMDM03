@@ -3,10 +3,15 @@ package com.gortmol.tupokedex;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.gortmol.tupokedex.data.FirestoreHelper;
 import com.gortmol.tupokedex.databinding.ActivityMainBinding;
+import com.gortmol.tupokedex.fragments.SettingsFragment;
 import com.gortmol.tupokedex.ui.adapter.MyViewPagerAdapter;
 
 import java.util.Objects;
@@ -20,6 +25,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        FirestoreHelper.getInstance()
+                .setDefaultSettingsIfNotExist(this, FirebaseAuth.getInstance().getCurrentUser());
+
+        FirestoreHelper.getInstance()
+                .getUserSetting(FirebaseAuth.getInstance().getCurrentUser(), SettingsFragment.PREF_LANGUAGE, language -> {
+                    if (language != null) {
+                        LocaleListCompat appLocales;
+                        if (language.equals("es")) {
+                            appLocales = LocaleListCompat.forLanguageTags("es");
+                        } else {
+                            appLocales = LocaleListCompat.forLanguageTags("en");
+                        }
+                        AppCompatDelegate.setApplicationLocales(appLocales);
+                    }
+                });
 
         binding.viewPager.setAdapter(new MyViewPagerAdapter(this));
 
