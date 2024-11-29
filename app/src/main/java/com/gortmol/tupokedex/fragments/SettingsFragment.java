@@ -3,7 +3,6 @@ package com.gortmol.tupokedex.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -12,15 +11,17 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.gortmol.tupokedex.LoginActivity;
 import com.gortmol.tupokedex.R;
-import com.gortmol.tupokedex.data.SharedPreferencesHelper;
+import com.gortmol.tupokedex.data.FirestoreHelper;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
     private static final String PREF_NAME = "AppSettings";
     private static final String PREF_LANGUAGE = "pref_language";
+    private static final String PREF_POKEMON_GENERATION = "pref_pokemon_generation";
     private static final String PREF_DELETE_POKEMON = "pref_delete_pokemon";
     private static final String PREF_POKEMONS_ORDER_BY = "pref_pokemons_order_by";
     private static final String PREF_POKEMONS_ORDER_ASC_DESC = "pref_pokemons_order_asc_desc";
@@ -34,6 +35,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference languagePreference = findPreference(PREF_LANGUAGE);
         if (languagePreference != null) {
             languagePreference.setOnPreferenceChangeListener(this);
+        }
+
+        Preference pokemonGenerationPreference = findPreference(PREF_POKEMON_GENERATION);
+        if (pokemonGenerationPreference != null) {
+            pokemonGenerationPreference.setOnPreferenceChangeListener(this);
         }
 
         Preference deletePokemonPreference = findPreference(PREF_DELETE_POKEMON);
@@ -68,10 +74,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
         Context context = requireContext();
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         switch (preference.getKey()) {
             case PREF_LANGUAGE:
-                SharedPreferencesHelper.getInstance(context).setLanguage((String) newValue);
+                FirestoreHelper.getInstance().updateSharedPreference(context, user, PREF_LANGUAGE, newValue);
                 LocaleListCompat appLocales;
                 if (newValue.equals("es")) {
                     appLocales = LocaleListCompat.forLanguageTags("es");
@@ -79,7 +85,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                     appLocales = LocaleListCompat.forLanguageTags("en");
                 }
                 AppCompatDelegate.setApplicationLocales(appLocales);
-                Toast.makeText(context, R.string.language_changed, Toast.LENGTH_SHORT).show();
+                return true;
+
+            case PREF_POKEMON_GENERATION:
+                // setPokemonGeneration((String) newValue);
                 return true;
 
             case PREF_DELETE_POKEMON:
