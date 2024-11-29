@@ -20,11 +20,11 @@ import com.gortmol.tupokedex.data.FirestoreHelper;
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
     private static final String PREF_NAME = "AppSettings";
-    private static final String PREF_LANGUAGE = "pref_language";
-    private static final String PREF_POKEMON_GENERATION = "pref_pokemon_generation";
-    private static final String PREF_DELETE_POKEMON = "pref_delete_pokemon";
-    private static final String PREF_POKEMONS_ORDER_BY = "pref_pokemons_order_by";
-    private static final String PREF_POKEMONS_ORDER_ASC_DESC = "pref_pokemons_order_asc_desc";
+    public static final String PREF_LANGUAGE = "pref_language";
+    public static final String PREF_POKEMON_GENERATION = "pref_pokemon_generation";
+    public static final String PREF_DELETE_POKEMON = "pref_delete_pokemon";
+    public static final String PREF_POKEMONS_ORDER_BY = "pref_pokemons_order_by";
+    public static final String PREF_POKEMONS_ORDER_ASC_DESC = "pref_pokemons_order_asc_desc";
     private static final String PREF_LOGOUT = "logout";
 
 
