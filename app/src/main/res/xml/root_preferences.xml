@@ -20,8 +20,8 @@
             android:entryValues="@array/pokemon_generation_values"
             android:icon="@drawable/ic_pokemon_generation"
             android:key="pref_pokemon_generation"
-            android:summary="Selecciona la generación de Pokémon que aparece en la Pokédex"
-            android:title="Generación Pokémon" />
+            android:summary="@string/pref_pokemon_generation_summary"
+            android:title="@string/pref_pokemon_generation_title" />
 
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_delete_pokemon"

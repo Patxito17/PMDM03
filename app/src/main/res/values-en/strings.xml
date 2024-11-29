@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Main Strings -->
     <string name="app_name">Your Pokédex</string>
@@ -29,6 +28,8 @@
     <string name="pref_language_summary">Select the app language</string>
     <string name="language">Language</string>
     <string name="settings_app">App Settings</string>
+    <string name="pref_pokemon_generation_summary">Select the Pokémon generation that appears in the Pokédex</string>
+    <string name="pref_pokemon_generation_title">Pokémon Generation</string>
     <string name="pref_delete_pokemon_summary">Enable or disable Pokémon deletion in the captured and pokédex tabs</string>
     <string name="pref_delete_pokemon_title">Captured Pokémon Deletion</string>
     <string name="pref_pokemons_order_asc_desc_summary">Select the order of the captured Pokémon list</string>
@@ -48,6 +49,9 @@
     <string name="logout_summary">Log out of the current user session</string>
     <string name="logout_title">Log Out</string>
     <string name="captured">Captured</string>
+
+    <!-- Settings Toast Strings -->
+    <string name="language_changed">Language changed successfully</string>
 
     <!-- Pokedex and CapturedPokemon Strings -->
     <string name="height">Height:</string>
