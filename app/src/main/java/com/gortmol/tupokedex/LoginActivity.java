@@ -100,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-
             goToMainActivity();
         } else {
             // Sign in failed
