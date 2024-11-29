@@ -57,8 +57,8 @@
     </string-array>
 
     <string-array name="pokemons_order_asc_desc_values">
-        <item>ascending</item>
-        <item>descending</item>
+        <item>asc</item>
+        <item>desc</item>
     </string-array>
 
 </resources>
