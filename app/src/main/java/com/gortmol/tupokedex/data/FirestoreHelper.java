@@ -3,6 +3,8 @@ package com.gortmol.tupokedex.data;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -14,6 +16,7 @@ import com.gortmol.tupokedex.model.Pokemon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -78,12 +81,7 @@ public class FirestoreHelper {
                     if (documentSnapshot.exists()) {
                         Log.d(TAG, "El usuario ya tiene ajustes configurados. No se aplicarán los valores por defecto.");
                     } else {
-                        Map<String, Object> defaultSettings = new HashMap<>();
-                        defaultSettings.put(SettingsFragment.PREF_LANGUAGE, "es");
-                        defaultSettings.put(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
-                        defaultSettings.put(SettingsFragment.PREF_DELETE_POKEMON, false);
-                        defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_BY, "id-asc");
-
+                        Map<String, Object> defaultSettings = getStringObjectMap();
                         db.collection(USERS_COLLECTION).document(user.getUid())
                                 .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
                                 .set(defaultSettings)
@@ -92,6 +90,17 @@ public class FirestoreHelper {
                     }
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Error al verificar la existencia del documento: ", e));
+    }
+
+    @NonNull
+    private static Map<String, Object> getStringObjectMap() {
+        Map<String, Object> defaultSettings = new HashMap<>();
+        String language = Locale.getDefault().getLanguage().equals("es")? "es" : "en";
+        defaultSettings.put(SettingsFragment.PREF_LANGUAGE, language);
+        defaultSettings.put(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
+        defaultSettings.put(SettingsFragment.PREF_DELETE_POKEMON, false);
+        defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_BY, "id-asc");
+        return defaultSettings;
     }
 
     public void getUserSetting(FirebaseUser user, String key, Consumer<Object> callback) {
