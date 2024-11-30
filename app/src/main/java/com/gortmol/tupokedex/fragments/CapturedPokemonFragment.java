@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.gortmol.tupokedex.data.FirestoreHelper;
 import com.gortmol.tupokedex.databinding.FragmentCapturedPokemonListBinding;
 import com.gortmol.tupokedex.model.Pokemon;
@@ -26,6 +27,8 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     private FragmentCapturedPokemonListBinding binding;
     private ArrayList<Pokemon> pokemonList;
     private CapturedPokemonRecyclerViewAdapter adapter;
+
+    public static ListenerRegistration listenToCapturedPokemons;
 
     public CapturedPokemonFragment() {
     }
@@ -49,7 +52,7 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     private void loadCapturedPokemons(FirebaseUser user) {
         if (user != null) {
 
-                    FirestoreHelper.getInstance().listenToCapturedPokemons(user, updatedList -> {
+            listenToCapturedPokemons = FirestoreHelper.getInstance().listenToCapturedPokemons(user, updatedList -> {
                         this.pokemonList = updatedList;
                         if (adapter == null) {
                             adapter = new CapturedPokemonRecyclerViewAdapter(this);
@@ -66,4 +69,15 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     public void onPokemonClick(int position) {
 
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (listenToCapturedPokemons != null) {
+            listenToCapturedPokemons.remove();
+            Log.d(TAG, "Listener de Pokémon capturados cancelado.");
+        }
+    }
+
+
 }

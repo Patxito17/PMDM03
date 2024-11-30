@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.gortmol.tupokedex.fragments.SettingsFragment;
@@ -64,7 +65,7 @@ public class FirestoreHelper {
         db.collection(USERS_COLLECTION).document(user.getUid())
                 .collection(CAPTURED_POKEMONS_COLLECTION).document(String.valueOf(pokemon.getId()))
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Pokemon eliminado: " + pokemon.getId()))
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Pokemon eliminado: " + pokemon.getName()))
                 .addOnFailureListener(e -> Log.e(TAG, "Error al eliminar el Pokemon: " + e.getMessage()));
     }
 
@@ -172,11 +173,11 @@ public class FirestoreHelper {
 
     }
 
-    public void listenToCapturedPokemons(FirebaseUser user, Consumer<ArrayList<Pokemon>> callback) {
+    public ListenerRegistration listenToCapturedPokemons(FirebaseUser user, Consumer<ArrayList<Pokemon>> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             callback.accept(new ArrayList<>());
-            return;
+            return null;
         }
 
         listenToSettingsUpdate(user, SettingsFragment.PREF_POKEMONS_ORDER_BY, newValue -> {
@@ -205,12 +206,13 @@ public class FirestoreHelper {
                         }
                     });
         });
+        return null;
     }
 
-    public void listenToCapturedPokemonIds(FirebaseUser user, Consumer<ArrayList<String>> callback) {
+    public ListenerRegistration listenToCapturedPokemonIds(FirebaseUser user, Consumer<ArrayList<String>> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
-            return;
+            return null;
         }
 
         db.collection(USERS_COLLECTION).document(user.getUid())
@@ -229,5 +231,6 @@ public class FirestoreHelper {
                         Log.d(TAG, "Listener de Pokémon (IDs) capturados actualizado: " + capturedPokemonIdList.size() + " Pokémon");
                     }
                 });
+        return null;
     }
 }

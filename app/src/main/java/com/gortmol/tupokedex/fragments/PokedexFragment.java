@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.gortmol.tupokedex.data.FirestoreHelper;
 import com.gortmol.tupokedex.data.PokeApiHelper;
 import com.gortmol.tupokedex.databinding.FragmentPokedexListBinding;
@@ -28,6 +29,8 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
     private PokedexRecyclerViewAdapter adapter;
+
+    public static ListenerRegistration listenToCapturedPokemonIds;
 
     public PokedexFragment() {
     }
@@ -56,7 +59,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
             binding.listPokedex.setAdapter(adapter);
             Log.d(TAG, "Lista de Pokémon obtenidos: " + pokemons.size());
 
-            FirestoreHelper.getInstance().listenToCapturedPokemonIds(FirebaseAuth.getInstance().getCurrentUser(), capturedPokemonIdList -> {
+            listenToCapturedPokemonIds = FirestoreHelper.getInstance().listenToCapturedPokemonIds(FirebaseAuth.getInstance().getCurrentUser(), capturedPokemonIdList -> {
                 for (Pokemon pokemon : pokemons) {
                     pokemon.setCaptured(capturedPokemonIdList.contains(String.valueOf(pokemon.getId())));
                 }
@@ -84,4 +87,14 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
             adapter.notifyItemChanged(position);
         });
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (listenToCapturedPokemonIds != null) {
+            listenToCapturedPokemonIds.remove();
+            Log.d(TAG, "Listener de Pokémon capturados cancelado.");
+        }
+    }
+
 }

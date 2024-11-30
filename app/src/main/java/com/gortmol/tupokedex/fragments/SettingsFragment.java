@@ -66,6 +66,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
                     Intent intent = new Intent(requireContext(), LoginActivity.class);
                     startActivity(intent);
+                    CapturedPokemonFragment.listenToCapturedPokemons.remove();
+                    PokedexFragment.listenToCapturedPokemonIds.remove();
                     requireActivity().finish();
                 });
                 return true;
