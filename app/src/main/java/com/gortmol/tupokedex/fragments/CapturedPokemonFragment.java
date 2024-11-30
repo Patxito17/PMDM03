@@ -69,15 +69,4 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     public void onPokemonClick(int position) {
 
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (listenToCapturedPokemons != null) {
-            listenToCapturedPokemons.remove();
-            Log.d(TAG, "Listener de Pokémon capturados cancelado.");
-        }
-    }
-
-
 }
