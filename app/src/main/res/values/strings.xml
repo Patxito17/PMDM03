@@ -38,9 +38,14 @@
     <string name="descending">Descendente</string>
     <string name="pref_pokemons_order_by_summary">Elige el criterio de ordenadicón</string>
     <string name="pref_pokemons_order_by_title">Tipo de orden</string>
-    <string name="by_id">Según número en la pokédex</string>
-    <string name="by_name">Según nombre</string>
-    <string name="by_height">Según altura</string>
+    <string name="by_id_asc">Número (ascendente)</string>
+    <string name="by_id_desc">Número (descendente)</string>
+    <string name="by_name_asc">Nombre (ascendente)</string>
+    <string name="by_name_desc">Nombre (descendente)</string>
+    <string name="by_height_asc">Altura (ascendente)</string>
+    <string name="by_height_desc">Altura (descendente)</string>
+    <string name="by_weight_asc">Peso (ascendente)</string>
+    <string name="by_weight_desc">Peso (descendente)</string>
     <string name="by_weight">Según peso</string>
     <string name="about_app">Sobre la App</string>
     <string name="pref_about_summary">Información sobre el desarrollador y la versión</string>

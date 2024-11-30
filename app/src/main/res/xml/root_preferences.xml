@@ -34,14 +34,6 @@
     <PreferenceCategory app:title="Orden de los pokémon capturados">
 
         <ListPreference
-            android:entries="@array/pokemons_order_asc_desc_options"
-            android:entryValues="@array/pokemons_order_asc_desc_values"
-            android:icon="@drawable/ic_order_asc_desc"
-            android:key="pref_pokemons_order_asc_desc"
-            android:summary="@string/pref_pokemons_order_asc_desc_summary"
-            android:title="@string/pref_pokemons_order_asc_desc_title" />
-
-        <ListPreference
             android:entries="@array/pokemons_order_by_options"
             android:entryValues="@array/pokemons_order_by_values"
             android:icon="@drawable/ic_order_by"
