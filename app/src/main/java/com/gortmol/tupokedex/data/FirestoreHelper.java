@@ -3,9 +3,11 @@ package com.gortmol.tupokedex.data;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.gortmol.tupokedex.fragments.SettingsFragment;
 import com.gortmol.tupokedex.model.Pokemon;
@@ -63,6 +65,35 @@ public class FirestoreHelper {
                 .addOnFailureListener(e -> Log.e(TAG, "Error al eliminar el Pokemon: " + e.getMessage()));
     }
 
+    public void setDefaultSettingsIfNotExist(FirebaseUser user) {
+        if (user == null) {
+            Log.e(TAG, "Error: Usuario no autenticado");
+            return;
+        }
+
+        db.collection(USERS_COLLECTION).document(user.getUid())
+                .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Log.d(TAG, "El usuario ya tiene ajustes configurados. No se aplicarán los valores por defecto.");
+                    } else {
+                        Map<String, Object> defaultSettings = new HashMap<>();
+                        defaultSettings.put(SettingsFragment.PREF_LANGUAGE, "es");
+                        defaultSettings.put(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
+                        defaultSettings.put(SettingsFragment.PREF_DELETE_POKEMON, false);
+                        defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_BY, "id-asc");
+
+                        db.collection(USERS_COLLECTION).document(user.getUid())
+                                .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
+                                .set(defaultSettings)
+                                .addOnSuccessListener(aVoid -> Log.d(TAG, "Documento de configuración creado con valores por defecto."))
+                                .addOnFailureListener(e -> Log.e(TAG, "Error al crear el documento de configuración: ", e));
+                    }
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Error al verificar la existencia del documento: ", e));
+    }
+
     public void getUserSetting(FirebaseUser user, String key, Consumer<Object> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
@@ -83,8 +114,13 @@ public class FirestoreHelper {
                             callback.accept(null);
                         }
                     } else {
-                        Log.d(TAG, "No se encontró un documento de ajustes para este usuario.");
-                        callback.accept(null);
+                        setDefaultSettingsIfNotExist(FirebaseAuth.getInstance().getCurrentUser());
+                        Log.d(TAG, "No se encontraron ajustes para el usuario. Se han establecido valores por defecto.");
+                        if (key.equals(SettingsFragment.PREF_LANGUAGE)) {
+                            callback.accept("es");
+                        } else {
+                            callback.accept(null);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -93,58 +129,11 @@ public class FirestoreHelper {
                 });
     }
 
-    public void setDefaultSettingsIfNotExist(Context context, FirebaseUser user) {
-        if (user == null) {
-            Log.e(TAG, "Error: Usuario no autenticado");
-            return;
-        }
-
-        db.collection(USERS_COLLECTION).document(user.getUid())
-                .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        Log.d(TAG, "El usuario ya tiene ajustes configurados. No se aplicarán los valores por defecto.");
-                    } else {
-                        Map<String, Object> defaultSettings = new HashMap<>();
-                        defaultSettings.put(SettingsFragment.PREF_LANGUAGE, "es");
-                        defaultSettings.put(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
-                        defaultSettings.put(SettingsFragment.PREF_DELETE_POKEMON, false);
-                        defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_ASC_DESC, "asc");
-                        defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_BY, "id");
-
-                        db.collection(USERS_COLLECTION).document(user.getUid())
-                                .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
-                                .set(defaultSettings)
-                                .addOnSuccessListener(aVoid -> Log.d(TAG, "Documento de configuración creado con valores por defecto."))
-                                .addOnFailureListener(e -> Log.e(TAG, "Error al crear el documento de configuración: ", e));
-                    }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Error al verificar la existencia del documento: ", e));
-    }
-
     public void updateUserSetting(Context context, FirebaseUser user, String key, Object newValue) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             return;
         }
-
-        /*SharedPreferences sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        if (newValue instanceof Boolean) {
-            editor.putBoolean(key, (Boolean) newValue);
-        } else if (newValue instanceof String) {
-            editor.putString(key, (String) newValue);
-        } else if (newValue instanceof Integer) {
-            editor.putInt(key, (Integer) newValue);
-        } else if (newValue instanceof Float) {
-            editor.putFloat(key, (Float) newValue);
-        } else if (newValue instanceof Long) {
-            editor.putLong(key, (Long) newValue);
-        }
-
-        editor.apply();*/
 
         Map<String, Object> update = new HashMap<>();
         update.put(key, newValue);
@@ -156,6 +145,27 @@ public class FirestoreHelper {
                 .addOnFailureListener(e -> Log.e(TAG, "Error al sincronizar ajuste con Firestore: ", e));
     }
 
+    public void listenToSettingsUpdate(FirebaseUser user, String key, Consumer<Object> callback) {
+        if (user == null) {
+            Log.e(TAG, "Error: Usuario no autenticado");
+            return;
+        }
+
+        db.collection(USERS_COLLECTION).document(user.getUid())
+                .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error al escuchar los ajustes: ", e);
+                        return;
+                    }
+                    if (snapshots != null) {
+                        Object newValue = snapshots.get(key);
+                        callback.accept(newValue);
+                    }
+                });
+
+    }
+
     public void listenToCapturedPokemons(FirebaseUser user, Consumer<ArrayList<Pokemon>> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
@@ -163,23 +173,31 @@ public class FirestoreHelper {
             return;
         }
 
-        db.collection(USERS_COLLECTION).document(user.getUid())
-                .collection(CAPTURED_POKEMONS_COLLECTION)
-                .addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.e(TAG, "Error al escuchar los Pokémon capturados: ", e);
-                        return;
-                    }
-                    if (snapshots != null) {
-                        ArrayList<Pokemon> capturedPokemonList = new ArrayList<>();
-                        for (DocumentSnapshot document : snapshots.getDocuments()) {
-                            Pokemon pokemon = document.toObject(Pokemon.class);
-                            pokemon.setImageUrl();
-                            capturedPokemonList.add(pokemon);
+        listenToSettingsUpdate(user, SettingsFragment.PREF_POKEMONS_ORDER_BY, newValue -> {
+            String[] order = {"id", "asc"};
+            if (newValue != null) {
+                order = ((String) newValue).split("-");
+            }
+            String orderType = order[0];
+            Query.Direction direction = order[1].equals("asc") ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
+            db.collection(USERS_COLLECTION).document(user.getUid())
+                    .collection(CAPTURED_POKEMONS_COLLECTION).orderBy(orderType, direction)
+                    .addSnapshotListener((snapshots, e) -> {
+                        if (e != null) {
+                            Log.e(TAG, "Error al escuchar los Pokémon capturados: ", e);
+                            return;
                         }
-                        callback.accept(capturedPokemonList);
-                    }
-                });
+                        if (snapshots != null) {
+                            ArrayList<Pokemon> capturedPokemonList = new ArrayList<>();
+                            for (DocumentSnapshot document : snapshots.getDocuments()) {
+                                Pokemon pokemon = document.toObject(Pokemon.class);
+                                pokemon.setImageUrl();
+                                capturedPokemonList.add(pokemon);
+                            }
+                            callback.accept(capturedPokemonList);
+                        }
+                    });
+        });
     }
 
     public void listenToCapturedPokemonIds(FirebaseUser user, Consumer<ArrayList<String>> callback) {

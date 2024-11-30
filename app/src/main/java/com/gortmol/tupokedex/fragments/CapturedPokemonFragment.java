@@ -48,17 +48,17 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
 
     private void loadCapturedPokemons(FirebaseUser user) {
         if (user != null) {
-            FirestoreHelper.getInstance().listenToCapturedPokemons(user, updatedList -> {
-                this.pokemonList = updatedList;
-                if (adapter == null) {
-                    adapter = new CapturedPokemonRecyclerViewAdapter(this);
-                    binding.listCapturedPokemon.setAdapter(adapter);
-                }
-                adapter.setPokemons(updatedList);
-                Log.d(TAG, "Lista de Pokémon capturados actualizada en tiempo real.");
+
+                    FirestoreHelper.getInstance().listenToCapturedPokemons(user, updatedList -> {
+                        this.pokemonList = updatedList;
+                        if (adapter == null) {
+                            adapter = new CapturedPokemonRecyclerViewAdapter(this);
+                            binding.listCapturedPokemon.setAdapter(adapter);
+                        }
+                        adapter.setPokemons(updatedList);
+                        Log.d(TAG, "Lista de Pokémon capturados actualizada en tiempo real.");
             });
         }
-
     }
 
 

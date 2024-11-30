@@ -50,28 +50,20 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     }
 
     public void loadPokemonsList(int offset, int limit) {
-        PokeApiHelper.getInstance().getPokemonList(offset, limit, new PokeApiHelper.PokemonListCallback() {
-            @Override
-            public void onSuccess(ArrayList<Pokemon> pokemons) {
-                adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
-                adapter.setPokemons(pokemons);
-                binding.listPokedex.setAdapter(adapter);
-                Log.d(TAG, "Lista de Pokémon obtenidos: " + pokemons.size());
+        PokeApiHelper.getInstance().getPokemonList(offset, limit, pokemons -> {
+            adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
+            adapter.setPokemons(pokemons);
+            binding.listPokedex.setAdapter(adapter);
+            Log.d(TAG, "Lista de Pokémon obtenidos: " + pokemons.size());
 
-                FirestoreHelper.getInstance().listenToCapturedPokemonIds(FirebaseAuth.getInstance().getCurrentUser(), capturedPokemonIdList -> {
-                    for (Pokemon pokemon : pokemons) {
-                        pokemon.setCaptured(capturedPokemonIdList.contains(String.valueOf(pokemon.getId())));
-                    }
-                    adapter.notifyDataSetChanged();
-                    Log.d(TAG, "Lista de Pokémon actualizada con estado de captura.");
-                    pokemonList = pokemons;
-                });
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "Error al obtener la lista de Pokémon: " + e.getMessage(), e);
-            }
+            FirestoreHelper.getInstance().listenToCapturedPokemonIds(FirebaseAuth.getInstance().getCurrentUser(), capturedPokemonIdList -> {
+                for (Pokemon pokemon : pokemons) {
+                    pokemon.setCaptured(capturedPokemonIdList.contains(String.valueOf(pokemon.getId())));
+                }
+                adapter.notifyDataSetChanged();
+                Log.d(TAG, "Lista de Pokémon actualizada con estado de captura.");
+                pokemonList = pokemons;
+            });
         });
     }
 
@@ -79,25 +71,17 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     public void onPokemonClick(int position) {
         Pokemon pokemon = pokemonList.get(position);
 
-        PokeApiHelper.getInstance().getPokemonById(pokemon.getId(), new PokeApiHelper.PokemonDetailsCallback() {
-            @Override
-            public void onSuccess(Pokemon pokemonCaptured) {
-                if (!pokemon.isCaptured()) {
-                    pokemon.setCaptured(true);
-                    FirestoreHelper.getInstance().addPokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
-                    Log.d(TAG, "Pokémon capturado: " + pokemonCaptured.getName());
-                } else {
-                    pokemon.setCaptured(false);
-                    FirestoreHelper.getInstance().deletePokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
-                    Log.d(TAG, "Pokémon liberado: " + pokemon.getName());
-                }
-                adapter.notifyItemChanged(position);
+        PokeApiHelper.getInstance().getPokemonById(pokemon.getId(), pokemonCaptured -> {
+            if (!pokemon.isCaptured()) {
+                pokemon.setCaptured(true);
+                FirestoreHelper.getInstance().addPokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
+                Log.d(TAG, "Pokémon capturado: " + pokemonCaptured.getName());
+            } else {
+                pokemon.setCaptured(false);
+                FirestoreHelper.getInstance().deletePokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
+                Log.d(TAG, "Pokémon liberado: " + pokemon.getName());
             }
-
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "Error al obtener detalles del Pokémon: " + e.getMessage(), e);
-            }
+            adapter.notifyItemChanged(position);
         });
     }
 }
