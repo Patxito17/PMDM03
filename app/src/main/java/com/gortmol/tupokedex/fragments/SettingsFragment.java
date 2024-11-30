@@ -28,7 +28,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public static final String PREF_POKEMON_GENERATION = "pref_pokemon_generation";
     public static final String PREF_DELETE_POKEMON = "pref_delete_pokemon";
     public static final String PREF_POKEMONS_ORDER_BY = "pref_pokemons_order_by";
-    public static final String PREF_POKEMONS_ORDER_ASC_DESC = "pref_pokemons_order_asc_desc";
     private static final String PREF_LOGOUT = "logout";
 
 
@@ -59,11 +58,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference pokemonsOrderByPreference = findPreference(PREF_POKEMONS_ORDER_BY);
         if (pokemonsOrderByPreference != null) {
             pokemonsOrderByPreference.setOnPreferenceChangeListener(this);
-        }
-
-        Preference pokemonsOrderAscDescPreference = findPreference(PREF_POKEMONS_ORDER_ASC_DESC);
-        if (pokemonsOrderAscDescPreference != null) {
-            pokemonsOrderAscDescPreference.setOnPreferenceChangeListener(this);
         }
 
         Preference logoutPreference = findPreference(PREF_LOGOUT);
@@ -109,13 +103,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 Objects.requireNonNull(lp).setValue((String) value);
             }
         });
-
-        fh.getUserSetting(user, PREF_POKEMONS_ORDER_ASC_DESC, value -> {
-            if (value instanceof String) {
-                ListPreference lp = (ListPreference) findPreference(PREF_POKEMONS_ORDER_ASC_DESC);
-                Objects.requireNonNull(lp).setValue((String) value);
-            }
-        });
     }
 
     @Override
@@ -148,11 +135,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             case PREF_POKEMONS_ORDER_BY:
                 FirestoreHelper.getInstance()
                         .updateUserSetting(context, user, PREF_POKEMONS_ORDER_BY, newValue);
-                return true;
-
-            case PREF_POKEMONS_ORDER_ASC_DESC:
-                FirestoreHelper.getInstance()
-                        .updateUserSetting(context, user, PREF_POKEMONS_ORDER_ASC_DESC, newValue);
                 return true;
 
             default:
