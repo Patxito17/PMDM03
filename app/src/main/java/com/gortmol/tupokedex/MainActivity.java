@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         FirestoreHelper.getInstance()
-                .setDefaultSettingsIfNotExist(this, FirebaseAuth.getInstance().getCurrentUser());
-
-        FirestoreHelper.getInstance()
                 .getUserSetting(FirebaseAuth.getInstance().getCurrentUser(), SettingsFragment.PREF_LANGUAGE, language -> {
                     if (language != null) {
                         LocaleListCompat appLocales;
