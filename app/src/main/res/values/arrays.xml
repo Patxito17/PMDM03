@@ -37,28 +37,25 @@
 
     <!-- Delete Pokemon Preference -->
     <string-array name="pokemons_order_by_options">
-        <item>@string/by_id</item>
-        <item>@string/by_name</item>
-        <item>@string/by_height</item>
-        <item>@string/by_weight</item>
+        <item>@string/by_id_asc</item>
+        <item>@string/by_id_desc</item>
+        <item>@string/by_name_asc</item>
+        <item>@string/by_name_desc</item>
+        <item>@string/by_height_asc</item>
+        <item>@string/by_height_desc</item>
+        <item>@string/by_weight_asc</item>
+        <item>@string/by_weight_desc</item>
     </string-array>
 
     <string-array name="pokemons_order_by_values">
-        <item>id</item>
-        <item>name</item>
-        <item>height</item>
-        <item>weight</item>
-    </string-array>
-
-    <!-- Pokemons Order Asc Desc Preference -->
-    <string-array name="pokemons_order_asc_desc_options">
-        <item>@string/ascending</item>
-        <item>@string/descending</item>
-    </string-array>
-
-    <string-array name="pokemons_order_asc_desc_values">
-        <item>asc</item>
-        <item>desc</item>
+        <item>id-asc</item>
+        <item>id-desc</item>
+        <item>name-asc</item>
+        <item>name-desc</item>
+        <item>height-asc</item>
+        <item>height-desc</item>
+        <item>weight-asc</item>
+        <item>weight-desc</item>
     </string-array>
 
 </resources>
