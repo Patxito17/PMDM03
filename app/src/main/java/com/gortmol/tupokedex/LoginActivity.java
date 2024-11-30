@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -24,12 +26,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setLanguageLikeSystem();
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             goToMainActivity();
         } else {
             setSignInLauncher();
         }
+    }
+
+    private void setLanguageLikeSystem() {
+        LocaleListCompat appLocales = LocaleListCompat.getEmptyLocaleList();
+        AppCompatDelegate.setApplicationLocales(appLocales);
     }
 
     private void setSignInLauncher() {
