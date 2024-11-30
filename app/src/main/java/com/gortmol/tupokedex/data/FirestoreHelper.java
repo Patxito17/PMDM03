@@ -125,11 +125,7 @@ public class FirestoreHelper {
                     } else {
                         setDefaultSettingsIfNotExist(FirebaseAuth.getInstance().getCurrentUser());
                         Log.d(TAG, "No se encontraron ajustes para el usuario. Se han establecido valores por defecto.");
-                        if (key.equals(SettingsFragment.PREF_LANGUAGE)) {
-                            callback.accept("es");
-                        } else {
                             callback.accept(null);
-                        }
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -170,6 +166,7 @@ public class FirestoreHelper {
                     if (snapshots != null) {
                         Object newValue = snapshots.get(key);
                         callback.accept(newValue);
+                        Log.d(TAG, "Listener de ajustes actualizado: " + key + " = " + newValue);
                     }
                 });
 
@@ -204,6 +201,7 @@ public class FirestoreHelper {
                                 capturedPokemonList.add(pokemon);
                             }
                             callback.accept(capturedPokemonList);
+                            Log.d(TAG, "Listener de Pokémon capturados actualizado: " + capturedPokemonList.size() + " Pokémon");
                         }
                     });
         });
@@ -228,6 +226,7 @@ public class FirestoreHelper {
                             capturedPokemonIdList.add(document.getId());
                         }
                         callback.accept(capturedPokemonIdList);
+                        Log.d(TAG, "Listener de Pokémon (IDs) capturados actualizado: " + capturedPokemonIdList.size() + " Pokémon");
                     }
                 });
     }
