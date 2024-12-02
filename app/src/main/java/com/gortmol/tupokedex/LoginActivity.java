@@ -2,7 +2,9 @@ package com.gortmol.tupokedex;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
@@ -15,12 +17,14 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.gortmol.tupokedex.data.FirestoreHelper;
+import com.gortmol.tupokedex.fragments.SettingsFragment;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,10 +32,10 @@ public class LoginActivity extends AppCompatActivity {
 
         setLanguageLikeSystem();
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+       FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             goToMainActivity();
-        } else {
+        } else if (savedInstanceState == null) {
             setSignInLauncher();
         }
     }
@@ -66,12 +70,21 @@ public class LoginActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
+            Log.d(TAG, "Usuario autenticado: " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
             goToMainActivity();
         }
     }
 
     private void goToMainActivity() {
+        SharedPreferences sp = getSharedPreferences(SettingsFragment.PREF_NAME, MODE_PRIVATE);
+        FirestoreHelper.getInstance().downloadUserSettings(FirebaseAuth.getInstance().getCurrentUser(), settings -> {
+            for (String key : settings.keySet()) {
+                sp.edit().putString(key, String.valueOf(settings.get(key))).apply();
+                Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + settings.get(key));
+            }
+        });
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
