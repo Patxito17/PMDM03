@@ -23,6 +23,8 @@ import com.gortmol.tupokedex.data.FirestoreHelper;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
+    private static final String TAG = "SettingsFragment";
+
     public static final String PREF_NAME = "AppSettings";
     public static final String PREF_LANGUAGE = "pref_language";
     public static final String PREF_POKEMON_GENERATION = "pref_pokemon_generation";
@@ -154,7 +156,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             case PREF_POKEMON_GENERATION:
                 FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_POKEMON_GENERATION, newValue);
                 sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
-                Log.d("SettingsFragment", "Pokémon Generation preference changed to: " + sp.getString(PREF_POKEMON_GENERATION, ""));
+                Log.d(TAG, "Pokémon Generation preference changed to: " + sp.getString(PREF_POKEMON_GENERATION, ""));
                 return true;
 
             case PREF_DELETE_POKEMON:
