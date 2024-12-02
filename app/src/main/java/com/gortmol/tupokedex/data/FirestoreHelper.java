@@ -200,27 +200,26 @@ public class FirestoreHelper {
 
     }
 
-    public void getCapturedPokemons(FirebaseUser user, String orderType, String orderDirection, Consumer<ArrayList<Pokemon>> callback) {
+    public void getCapturedPokemonsIds(FirebaseUser user, Consumer<ArrayList<String>> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             callback.accept(new ArrayList<>());
             return;
         }
 
-        Query.Direction direction = orderDirection.equals("asc") ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
-
         db.collection(USERS_COLLECTION).document(user.getUid())
-                .collection(CAPTURED_POKEMONS_COLLECTION).orderBy(orderType, direction)
+                .collection(CAPTURED_POKEMONS_COLLECTION)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<Pokemon> capturedPokemonList = new ArrayList<>();
+                    ArrayList<String> capturedPokemonIdList = new ArrayList<>();
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        Pokemon pokemon = document.toObject(Pokemon.class);
-                        pokemon.setImageUrl();
-                        capturedPokemonList.add(pokemon);
+                        capturedPokemonIdList.add(document.getId());
                     }
-                    callback.accept(capturedPokemonList);
-                    Log.d(TAG, "Lista de Pokémon capturados actualizada: " + capturedPokemonList.size() + " Pokémon");
+                    callback.accept(capturedPokemonIdList);
+                    Log.d(TAG, "Obtenidos Ids de Pokémon capturados: " + capturedPokemonIdList.size() + " Pokémon");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error al obtener los Pokémon capturados: ", e);
                 });
     }
 

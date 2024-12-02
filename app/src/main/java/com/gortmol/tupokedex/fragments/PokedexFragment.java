@@ -25,8 +25,6 @@ import java.util.ArrayList;
 public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdapter.OnPokemonClickListener {
 
     private static final String TAG = "PokedexFragment";
-    private static final int POKEMON_OFFSET = 0;
-    private static final int POKEMON_LIMIT = 150;
 
     public static ListenerRegistration listenToCapturedPokemonIds;
 
@@ -56,7 +54,9 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         initializeSharedPreferencesListener();
         sp.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 
-        loadPokemonsList(POKEMON_OFFSET, POKEMON_LIMIT);
+        int offset = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("-")[0]);
+        int limit = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("-")[1]);
+        loadPokemonsList(offset, limit);
 
         return binding.getRoot();
     }
@@ -74,11 +74,17 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     }
 
     public void loadPokemonsList(int offset, int limit) {
+        if (listenToCapturedPokemonIds != null) {
+            listenToCapturedPokemonIds.remove();
+            listenToCapturedPokemonIds = null;
+            Log.d(TAG, "Listener de Pokémon capturados removido.");
+        }
+
         PokeApiHelper.getInstance().getPokemonList(offset, limit, pokemons -> {
             adapter = new PokedexRecyclerViewAdapter(PokedexFragment.this);
             adapter.setPokemons(pokemons);
             binding.listPokedex.setAdapter(adapter);
-            Log.d(TAG, "Lista de Pokémon obtenidos: " + pokemons.size());
+            Log.d(TAG, "Lista de Pokémon obtenida: " + pokemons.size());
 
             listenToCapturedPokemonIds = FirestoreHelper.getInstance().listenToCapturedPokemonIds(FirebaseAuth.getInstance().getCurrentUser(), capturedPokemonIdList -> {
                 for (Pokemon pokemon : pokemons) {
