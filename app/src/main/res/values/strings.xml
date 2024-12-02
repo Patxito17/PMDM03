@@ -53,6 +53,11 @@
     <!-- Settings Toast Strings -->
     <string name="language_changed">Idioma cambiado correctamente</string>
 
+    <!-- Settings Alert Dialog Strings -->
+    <string name="restart_app">Reiniciar aplicación</string>
+    <string name="restart_app_message">Para aplicar el cambio de generación de Pokémon, es necesario reiniciar la aplicación. ¿Deseas continuar?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="restart">Reiniciar</string>
 
     <!-- Pokedex and CapturedPokemon Strings -->
     <string name="height">Altura:</string>

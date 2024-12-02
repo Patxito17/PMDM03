@@ -26,7 +26,7 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
 
     private static final String TAG = "CapturedPokemonFragment";
 
-    public static ListenerRegistration listenToCapturedPokemons;
+    private ListenerRegistration listenToCapturedPokemons;
 
     private FragmentCapturedPokemonListBinding binding;
     private ArrayList<Pokemon> pokemonList;

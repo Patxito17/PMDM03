@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -77,8 +76,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
                     Intent intent = new Intent(requireContext(), LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);                    CapturedPokemonFragment.listenToCapturedPokemons.remove();
-                    PokedexFragment.listenToCapturedPokemonIds.remove();
+                    startActivity(intent);
                     requireActivity().finish();
                 });
                 return true;
@@ -154,10 +152,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
 
             case PREF_POKEMON_GENERATION:
-                FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_POKEMON_GENERATION, newValue);
-                sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
-                Log.d(TAG, "Pokémon Generation preference changed to: " + sp.getString(PREF_POKEMON_GENERATION, ""));
-                return true;
+                new android.app.AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.restart_app)
+                        .setMessage(R.string.restart_app_message)
+                        .setPositiveButton(R.string.restart, (dialog, which) -> {
+                            FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_POKEMON_GENERATION, newValue);
+                            sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
+                            Intent intent = requireContext().getPackageManager()
+                                    .getLaunchIntentForPackage(requireContext().getPackageName());
+                            if (intent != null) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                            requireActivity().finish();
+                        })
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                            dialog.dismiss();
+                        })
+                        .show();
+                return false;
 
             case PREF_DELETE_POKEMON:
                 FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_DELETE_POKEMON, newValue);

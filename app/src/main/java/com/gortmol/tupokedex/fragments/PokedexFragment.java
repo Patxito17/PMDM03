@@ -26,7 +26,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
 
     private static final String TAG = "PokedexFragment";
 
-    public static ListenerRegistration listenToCapturedPokemonIds;
+    private ListenerRegistration listenToCapturedPokemonIds;
 
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
