@@ -1,5 +1,7 @@
 package com.gortmol.tupokedex.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +28,14 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     private static final int POKEMON_OFFSET = 0;
     private static final int POKEMON_LIMIT = 150;
 
+    public static ListenerRegistration listenToCapturedPokemonIds;
+
     private FragmentPokedexListBinding binding;
     private ArrayList<Pokemon> pokemonList;
     private PokedexRecyclerViewAdapter adapter;
 
-    public static ListenerRegistration listenToCapturedPokemonIds;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
+    private SharedPreferences sp;
 
     public PokedexFragment() {
     }
@@ -38,6 +43,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sp = getActivity().getSharedPreferences(SettingsFragment.PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -47,9 +53,24 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
 
         binding = FragmentPokedexListBinding.inflate(inflater, container, false);
 
+        initializeSharedPreferencesListener();
+        sp.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+
         loadPokemonsList(POKEMON_OFFSET, POKEMON_LIMIT);
 
         return binding.getRoot();
+    }
+
+    private void initializeSharedPreferencesListener() {
+        preferenceChangeListener = (sharedPreferences, key) -> {
+            if (key != null && key.equals(SettingsFragment.PREF_POKEMON_GENERATION)) {
+                String pokemonGeneration = sharedPreferences.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
+                String[] generationRange = pokemonGeneration.split("-");
+                int start = Integer.parseInt(generationRange[0]);
+                int end = Integer.parseInt(generationRange[1]);
+                loadPokemonsList(start, end);
+            }
+        };
     }
 
     public void loadPokemonsList(int offset, int limit) {
@@ -93,8 +114,11 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         super.onDestroyView();
         if (listenToCapturedPokemonIds != null) {
             listenToCapturedPokemonIds.remove();
-            Log.d(TAG, "Listener de Pokémon capturados cancelado.");
+            Log.d(TAG, "Listener de Pokémon capturados removido.");
+        }
+        if (preferenceChangeListener != null) {
+            sp.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
+            Log.d(TAG, "Listener de preferencias removido.");
         }
     }
-
 }
