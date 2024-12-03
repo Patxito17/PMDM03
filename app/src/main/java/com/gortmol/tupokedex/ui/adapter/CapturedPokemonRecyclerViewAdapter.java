@@ -101,7 +101,7 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
 
             Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageUrl()).into(binding.pokemonImage);
             // Índice formateado a tres dígitos
-            String formattedIndex = String.format("#%03d", currentPokemon.getId());
+            String formattedIndex = String.format("#%04d", currentPokemon.getId());
             binding.id.setText(formattedIndex);
             // Nombre formateado, primera letra en mayúscula
             String formattedName = currentPokemon.getName().substring(0, 1).toUpperCase() + currentPokemon.getName().substring(1);

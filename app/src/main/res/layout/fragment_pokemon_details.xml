@@ -1,64 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_medium"
     tools:context=".fragments.PokemonDetailsFragment">
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/pokemon_detail_image_size"
+        android:layout_height="@dimen/pokemon_detail_image_size"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        android:layout_marginVertical="@dimen/margin_vertical"
+        android:contentDescription="@string/image" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="400dp"
-            android:layout_height="400dp"/>
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre del pokémon" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/index"
+            android:textSize="@dimen/pokemon_detail_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Índice pokédex" />
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginVertical="@dimen/margin_vertical" />
 
         <TextView
-            android:id="@+id/height"
+            android:id="@+id/name"
+            android:textSize="@dimen/pokemon_detail_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Altura" />
-
-        <TextView
-            android:id="@+id/weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Peso" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/type1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:id="@+id/type2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+            android:layout_marginVertical="@dimen/margin_vertical"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/height"
+        android:layout_width="wrap_content"
+        android:layout_marginVertical="@dimen/margin_vertical"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/weight"
+        android:layout_width="wrap_content"
+        android:layout_marginVertical="@dimen/margin_vertical"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="@dimen/margin_vertical">
+
+        <ImageView
+            android:id="@+id/type1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            />
+
+        <ImageView
+            android:id="@+id/type2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -164,10 +164,16 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     private static Bundle getBundle(Pokemon selectedPokemon) {
         Bundle bundle = new Bundle();
         bundle.putString("image", selectedPokemon.getImageUrl());
-        bundle.putString("name", selectedPokemon.getName());
-        bundle.putString("index", String.valueOf(selectedPokemon.getId()));
-        bundle.putString("height", String.valueOf(selectedPokemon.getHeight()));
-        bundle.putString("weight", String.valueOf(selectedPokemon.getWeight()));
+        // Nombre formateado con la primera letra en mayúscula
+        String name = selectedPokemon.getName().substring(0, 1).toUpperCase() + selectedPokemon.getName().substring(1);
+        bundle.putString("name", name);
+        // Índice formateado con el símbolo # y 3 dígitos
+        String index = String.format("#%04d", selectedPokemon.getId());
+        bundle.putString("index", index);
+        // Altura formateada con dos decimales en metros
+        bundle.putString("height", String.format("%.2f m", selectedPokemon.getHeight() / 10.0));
+        // Peso formateado con dos decimales en kilogramos
+        bundle.putString("weight", String.format("%.2f kg", selectedPokemon.getWeight() / 10.0));
         bundle.putString("type1", selectedPokemon.getImageTypes().get(0));
         if (selectedPokemon.getImageTypes().size() > 1) {
             bundle.putString("type2", selectedPokemon.getImageTypes().get(1));

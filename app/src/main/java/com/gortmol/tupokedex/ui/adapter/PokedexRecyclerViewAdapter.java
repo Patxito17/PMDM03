@@ -71,7 +71,7 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
         public void bind(Pokemon pokemon) {
             pokemon.setId();
             pokemon.setImageUrl();
-            String index = String.format("#%03d", pokemon.getId());
+            String index = String.format("#%04d", pokemon.getId());
             binding.pokemonIndex.setText(index);
             //
             binding.pokemonIndex.setTypeface(null, pokemon.isCaptured() ? Typeface.BOLD : Typeface.NORMAL);
