@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 import androidx.preference.ListPreference;
@@ -30,6 +31,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public static final String PREF_DELETE_POKEMON = "pref_delete_pokemon";
     public static final String PREF_POKEMONS_ORDER_BY = "pref_pokemons_order_by";
     public static final String PREF_POKEMONS_ORDER_ASC_DESC = "pref_pokemons_order_asc_desc";
+    public static final String PREF_ABOUT = "pref_about";
     private static final String PREF_LOGOUT = "logout";
 
     private SharedPreferences sp;
@@ -70,18 +72,51 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             pokemonsOrderAscDescPreference.setOnPreferenceChangeListener(this);
         }
 
-        Preference logoutPreference = findPreference(PREF_LOGOUT);
-        if (logoutPreference != null) {
-            logoutPreference.setOnPreferenceClickListener(preference -> {
-                AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
-                    Intent intent = new Intent(requireContext(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    requireActivity().finish();
-                });
+        Preference aboutPreference = findPreference(PREF_ABOUT);
+        if (aboutPreference != null) {
+            aboutPreference.setOnPreferenceClickListener(preference -> {
+                showAboutDialog();
                 return true;
             });
         }
+
+        Preference logoutPreference = findPreference(PREF_LOGOUT);
+        if (logoutPreference != null) {
+            logoutPreference.setOnPreferenceClickListener(preference -> {
+                logout();
+                return true;
+            });
+        }
+    }
+
+    private void logout() {
+        new android.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.end_session)
+                .setMessage(R.string.end_session_message)
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
+                        Intent intent = new Intent(requireContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        requireActivity().finish();
+                    });
+
+                })
+                .setNegativeButton(R.string.no, (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
+    private void showAboutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.requireContext());
+        builder.setTitle(R.string.about)
+                .setMessage(R.string.about_message)
+                .setIcon(R.drawable.ic_about)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    dialog.dismiss();
+                });
+        builder.create().show();
     }
 
     private void syncPreferencesWithFirestore(FirebaseUser user) {

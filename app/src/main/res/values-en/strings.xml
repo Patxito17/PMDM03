@@ -55,12 +55,18 @@
 
     <!-- Settings Alert Dialog Strings -->
     <string name="restart_app">Restart App</string>
+    <string name="end_session">End session</string>
     <string name="restart_app_message">To apply the Pokémon generation change, you need to restart the app. Do you want to continue?</string>
+    <string name="end_session_message">Do you want to log out?</string>
     <string name="cancel">Cancel</string>
     <string name="restart">Restart</string>
 
     <!-- Pokedex and CapturedPokemon Strings -->
+    <string name="no">No</string>
+    <string name="ok">Accept</string>
     <string name="height">Height:</string>
     <string name="weight">Weight:</string>
+    <string name="about_message">Application developed by: Gabriel Ortega Molina\\nVersion: 1.0.0</string>
+    <string name="yes">Yes</string>
 
 </resources>

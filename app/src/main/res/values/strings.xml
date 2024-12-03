@@ -55,9 +55,15 @@
 
     <!-- Settings Alert Dialog Strings -->
     <string name="restart_app">Reiniciar aplicación</string>
+    <string name="end_session">Cerrar sesión</string>
     <string name="restart_app_message">Para aplicar el cambio de generación de Pokémon, es necesario reiniciar la aplicación. ¿Deseas continuar?</string>
+    <string name="about_message">Aplicación desarrollada por: Gabriel Ortega Molina\nVersión: 1.0.0</string>
+    <string name="end_session_message">¿Deseas cerrar sesión?</string>
     <string name="cancel">Cancelar</string>
     <string name="restart">Reiniciar</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="ok">Aceptar</string>
 
     <!-- Pokedex and CapturedPokemon Strings -->
     <string name="height">Altura:</string>
