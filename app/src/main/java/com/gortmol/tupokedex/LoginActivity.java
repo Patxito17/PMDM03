@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_pokemon_generation)
+                .setLogo(R.drawable.ic_launcher)
                 .setTheme(R.style.Theme_TuPokedex)
                 .build();
         signInLauncher.launch(signInIntent);

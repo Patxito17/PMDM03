@@ -73,4 +73,7 @@
     <string name="height">Altura:</string>
     <string name="weight">Peso:</string>
 
+    <!-- Various Strings -->
+    <string name="image">Imagen</string>
+
 </resources>

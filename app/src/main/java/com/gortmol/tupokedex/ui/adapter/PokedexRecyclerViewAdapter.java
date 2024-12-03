@@ -70,8 +70,10 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
         public void bind(Pokemon pokemon) {
             pokemon.setId();
             pokemon.setImageUrl();
-            binding.pokemonIndex.setText(String.valueOf(pokemon.getId()));
-            binding.pokemonName.setText(pokemon.getName());
+            String index = String.format("#%03d", pokemon.getId());
+            binding.pokemonIndex.setText(index);
+            String name = pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1);
+            binding.pokemonName.setText(name);
             binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
             Picasso.with(binding.getRoot().getContext()).load(pokemon.getImageUrl()).into(binding.pokemonSprite);
         }
