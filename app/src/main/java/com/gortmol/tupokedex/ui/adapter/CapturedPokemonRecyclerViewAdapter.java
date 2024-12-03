@@ -1,6 +1,7 @@
 package com.gortmol.tupokedex.ui.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,20 +19,9 @@ import java.util.ArrayList;
 public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<CapturedPokemonRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Pokemon> pokemonCaptureds;
-    private CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener listener;
-
-    public interface OnPokemonClickListener {
-        void onPokemonClick(int position);
-    }
-
-    public CapturedPokemonRecyclerViewAdapter(CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener listener) {
-        this.listener = listener;
-    }
-
-    public void setPokemons(ArrayList<Pokemon> pokemonCaptureds) {
-        this.pokemonCaptureds = pokemonCaptureds;
-        notifyDataSetChanged();
-    }
+    private CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener onPokemonClickListener;
+    private CapturedPokemonRecyclerViewAdapter.OnDeleteClickListener onDeleteClickListener;
+    private boolean deleteEnabled = false;
 
     @NonNull
     @Override
@@ -46,15 +36,56 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
         holder.bind(currentPokemon);
 
         holder.itemView.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onPokemonClick(position);
+            if (onPokemonClickListener != null) {
+                onPokemonClickListener.onPokemonClick(position);
             }
         });
+
+        if (deleteEnabled) {
+            holder.binding.deleteButton.setVisibility(View.VISIBLE);
+            holder.binding.deleteButton.setOnClickListener(view -> {
+                if (onDeleteClickListener != null) {
+                    onDeleteClickListener.onDeleteButtonClick(holder.getBindingAdapterPosition());
+                }
+            });
+        } else {
+            holder.binding.deleteButton.setVisibility(View.GONE);
+        }
+
+        holder.itemView.setOnClickListener(view -> {
+            if (onPokemonClickListener != null) {
+                onPokemonClickListener.onPokemonClick(holder.getBindingAdapterPosition());
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return pokemonCaptureds.size();
+    }
+
+    public void setDeleteEnabled(boolean enabled) {
+        this.deleteEnabled = enabled;
+        notifyDataSetChanged(); // Refresca todos los elementos del RecyclerView para reflejar el cambio
+    }
+
+    public interface OnPokemonClickListener {
+        void onPokemonClick(int position);
+    }
+
+    public interface OnDeleteClickListener {
+        void onDeleteButtonClick(int position);
+    }
+
+    public CapturedPokemonRecyclerViewAdapter(CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener onPokemonClickListener, CapturedPokemonRecyclerViewAdapter.OnDeleteClickListener onDeleteClickListener) {
+        this.onPokemonClickListener = onPokemonClickListener;
+        this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+    public void setPokemons(ArrayList<Pokemon> pokemonCaptureds) {
+        this.pokemonCaptureds = pokemonCaptureds;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,6 +114,5 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
         public String toString() {
             return super.toString() + " '" + binding.name.getText() + "'";
         }
-
     }
 }

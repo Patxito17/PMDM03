@@ -21,6 +21,10 @@
     <string name="password_length">La contraseña debe tener mínimo 6 caracteres</string>
     <string name="password_error">La contraseña debe contener, como mínimo, letras en minúscula y números</string>
 
+    <!-- PokemonCapturedFragment Snackbar strings -->
+    <string name="undo">Deshacer</string>
+    <string name="pokemon_removed">"Pokémon eliminado:"</string>
+
     <!-- Settings Strings -->
     <string name="languages">Idiomas</string>
     <string name="spanish">Español</string>

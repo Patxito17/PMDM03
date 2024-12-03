@@ -106,7 +106,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
                 pokemon.setCaptured(true);
                 FirestoreHelper.getInstance().addPokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
                 Log.d(TAG, "Pokémon capturado: " + pokemonCaptured.getName());
-            } else {
+            } else if (sp.getBoolean(SettingsFragment.PREF_DELETE_POKEMON, false)) {
                 pokemon.setCaptured(false);
                 FirestoreHelper.getInstance().deletePokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
                 Log.d(TAG, "Pokémon liberado: " + pokemon.getName());

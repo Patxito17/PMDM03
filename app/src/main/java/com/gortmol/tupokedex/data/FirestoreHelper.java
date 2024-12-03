@@ -126,7 +126,7 @@ public class FirestoreHelper {
                     } else {
                         setDefaultSettingsIfNotExist(FirebaseAuth.getInstance().getCurrentUser());
                         Log.d(TAG, "No se encontraron ajustes para el usuario. Se han establecido valores por defecto.");
-                        callback.accept(null);
+                        callback.accept(getStringObjectMap());
                     }
                 });
     }

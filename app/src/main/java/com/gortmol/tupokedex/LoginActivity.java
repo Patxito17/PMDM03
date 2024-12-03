@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setLanguageLikeSystem();
 
-       FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             goToMainActivity();
         } else if (savedInstanceState == null) {
@@ -79,8 +79,13 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences(SettingsFragment.PREF_NAME, MODE_PRIVATE);
         FirestoreHelper.getInstance().downloadUserSettings(FirebaseAuth.getInstance().getCurrentUser(), settings -> {
             for (String key : settings.keySet()) {
-                sp.edit().putString(key, String.valueOf(settings.get(key))).apply();
-                Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + settings.get(key));
+                if (key.equals(SettingsFragment.PREF_DELETE_POKEMON)) {
+                    sp.edit().putBoolean(key, (boolean) settings.get(key)).apply();
+                    Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + settings.get(key));
+                } else {
+                    sp.edit().putString(key, String.valueOf(settings.get(key))).apply();
+                    Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + settings.get(key));
+                }
             }
         });
         Intent intent = new Intent(this, MainActivity.class);

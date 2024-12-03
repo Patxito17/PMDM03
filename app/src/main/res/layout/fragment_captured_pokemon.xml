@@ -18,8 +18,9 @@
             android:padding="10dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -73,7 +74,6 @@
                     android:text="@string/height"
                     android:paddingEnd="4dp"/>
 
-
                 <TextView
                     android:id="@+id/height"
                     android:layout_width="wrap_content"
@@ -93,7 +93,6 @@
                     android:text="@string/weight"
                     android:paddingEnd="4dp"/>
 
-
                 <TextView
                     android:id="@+id/weight"
                     android:layout_width="wrap_content"
@@ -102,6 +101,13 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_margin="30dp"/>
 
     </LinearLayout>
 
