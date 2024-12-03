@@ -153,7 +153,26 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
 
     @Override
     public void onPokemonClick(int position) {
+        Pokemon selectedPokemon = pokemonList.get(position);
+        PokemonDetailsFragment detailsFragment = new PokemonDetailsFragment();
+        Bundle bundle = getBundle(selectedPokemon);
+        detailsFragment.setArguments(bundle);
+        detailsFragment.show(getParentFragmentManager(), "PokemonDetailsFragment");
+    }
 
+    @NonNull
+    private static Bundle getBundle(Pokemon selectedPokemon) {
+        Bundle bundle = new Bundle();
+        bundle.putString("image", selectedPokemon.getImageUrl());
+        bundle.putString("name", selectedPokemon.getName());
+        bundle.putString("index", String.valueOf(selectedPokemon.getId()));
+        bundle.putString("height", String.valueOf(selectedPokemon.getHeight()));
+        bundle.putString("weight", String.valueOf(selectedPokemon.getWeight()));
+        bundle.putString("type1", selectedPokemon.getImageTypes().get(0));
+        if (selectedPokemon.getImageTypes().size() > 1) {
+            bundle.putString("type2", selectedPokemon.getImageTypes().get(1));
+        }
+        return bundle;
     }
 
     @Override
