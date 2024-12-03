@@ -1,5 +1,6 @@
 package com.gortmol.tupokedex.ui.adapter;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,8 +73,11 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
             pokemon.setImageUrl();
             String index = String.format("#%03d", pokemon.getId());
             binding.pokemonIndex.setText(index);
+            //
+            binding.pokemonIndex.setTypeface(null, pokemon.isCaptured() ? Typeface.BOLD : Typeface.NORMAL);
             String name = pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1);
             binding.pokemonName.setText(name);
+            binding.pokemonName.setTypeface(null, pokemon.isCaptured() ? Typeface.BOLD : Typeface.NORMAL);
             binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
             Picasso.with(binding.getRoot().getContext()).load(pokemon.getImageUrl()).into(binding.pokemonSprite);
         }

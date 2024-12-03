@@ -100,10 +100,18 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
         public void bind(Pokemon currentPokemon) {
 
             Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageUrl()).into(binding.pokemonImage);
-            binding.id.setText(String.valueOf(currentPokemon.getId()));
-            binding.name.setText(currentPokemon.getName());
-            binding.height.setText(String.valueOf(currentPokemon.getHeight()));
-            binding.weight.setText(String.valueOf(currentPokemon.getWeight()));
+            // Índice formateado a tres dígitos
+            String formattedIndex = String.format("#%03d", currentPokemon.getId());
+            binding.id.setText(formattedIndex);
+            // Nombre formateado, primera letra en mayúscula
+            String formattedName = currentPokemon.getName().substring(0, 1).toUpperCase() + currentPokemon.getName().substring(1);
+            binding.name.setText(formattedName);
+            // Altura formateada a metros
+            String formattedHeight = String.format("%.2f m", currentPokemon.getHeight() / 10.0);
+            binding.height.setText(formattedHeight);
+            // Peso formateado a kilogramos
+            String formattedWeight = String.format("%.2f kg", currentPokemon.getWeight() / 10.0);
+            binding.weight.setText(formattedWeight);
             Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(0)).into(binding.abilityImage1);
             if (currentPokemon.getImageTypes().size() > 1) {
                 Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(1)).into(binding.abilityImage2);
