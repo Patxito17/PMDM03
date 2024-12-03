@@ -1,7 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TuPokedex" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/yellow_mustard</item>
+        <item name="colorPrimaryContainer">@color/orange_toast</item>
+        <item name="colorSecondary">@color/blue_sapphire</item>
+        <item name="colorSecondaryContainer">@color/blue_night</item>
+        <item name="colorSurface">@color/gray_anthracite</item>
+        <item name="colorOnSurface">@color/gray_light</item>
+        <item name="backgroundColor">@color/gray_very_dark</item>
+        <item name="colorOnBackground">@color/white_smoke</item>
+        <item name="colorError">@color/red_blood</item>
+        <item name="colorOnError">@color/black</item>
     </style>
 </resources>

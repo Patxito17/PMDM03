@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Light Theme -->
+    <color name="yellow_pikachu">#FFCC00</color>
+    <color name="orange_variant">#FFA726</color>
+    <color name="blue_squirtle">#42A5F5</color>
+    <color name="blue_dark">#1565C0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="red_coral">#FF5252</color>
+    <color name="black">#000000</color>
+    <color name="gray_dark">#212121</color>
+
+    <!-- Dark Theme -->
+    <color name="yellow_mustard">#FFD700</color>
+    <color name="orange_toast">#FF8C00</color>
+    <color name="blue_sapphire">#1E88E5</color>
+    <color name="blue_night">#0D47A1</color>
+    <color name="gray_very_dark">#121212</color>
+    <color name="gray_anthracite">#1E1E1E</color>
+    <color name="red_blood">#CF6679</color>
+    <color name="white_smoke">#E0E0E0</color>
 </resources>

@@ -1,8 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TuPokedex" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/yellow_pikachu</item>
+        <item name="colorPrimaryContainer">@color/orange_variant</item>
+        <item name="colorSecondary">@color/blue_squirtle</item>
+        <item name="colorSecondaryContainer">@color/blue_dark</item>
+        <item name="colorSurface">@color/gray_light</item>
+        <item name="colorOnSurface">@color/gray_dark</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="colorOnBackground">@color/gray_dark</item>
+        <item name="colorError">@color/red_coral</item>
+        <item name="colorOnError">@color/white</item>
     </style>
 
     <style name="Theme.TuPokedex" parent="Base.Theme.TuPokedex" />
