@@ -8,6 +8,7 @@
     <!-- PokemonCapturedFragment Snackbar strings -->
     <string name="undo">Undo</string>
     <string name="pokemon_removed">"Pokémon removed:"</string>
+    <string name="pokemon_added">"Pokémon captured:"</string>
 
     <!-- Settings Strings -->
     <string name="languages">Languages</string>
@@ -36,7 +37,7 @@
     <string name="user">User</string>
     <string name="logout_summary">Log out from the current user</string>
     <string name="logout_title">Log Out</string>
-    
+
     <!-- Settings Alert Dialog Strings -->
     <string name="restart_app">Restart Application</string>
     <string name="end_session">Log Out</string>
@@ -48,6 +49,16 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
+
+    <!-- Settings Toast Strings -->
+    <string name="language_changed">Idioma cambiado a español</string>
+    <string name="toas_pokemon_generation">Pokémon generation change done</string>
+    <string name="toast_delete_pokemon">Options for deleting Pokémon</string>
+    <string name="activated">activated</string>
+    <string name="disabled">disabled</string>
+    <string name="toast_order_by">Order type change made</string>
+    <string name="toast_order_asc_desc">Order change made</string>
+
 
     <!-- Pokedex and CapturedPokemon Strings -->
     <string name="height">Height:</string>

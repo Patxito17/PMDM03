@@ -94,7 +94,8 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     }
 
     private void showSnackbarPokemonRemoved(Pokemon removedPokemon) {
-        Snackbar.make(binding.getRoot(), getString(R.string.pokemon_removed) + " " + removedPokemon.getName(), Snackbar.LENGTH_LONG)
+        String pokemonName = removedPokemon.getName().substring(0, 1).toUpperCase() + removedPokemon.getName().substring(1);
+        Snackbar.make(binding.getRoot(), getString(R.string.pokemon_removed) + " " + pokemonName, Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo, v -> FirestoreHelper.getInstance()
                         .addPokemon(removedPokemon, FirebaseAuth.getInstance().getCurrentUser())).show();
     }
@@ -166,15 +167,11 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     private static Bundle getBundle(Pokemon selectedPokemon) {
         Bundle bundle = new Bundle();
         bundle.putString("image", selectedPokemon.getImageUrl());
-        // Nombre formateado con la primera letra en mayúscula
         String name = selectedPokemon.getName().substring(0, 1).toUpperCase() + selectedPokemon.getName().substring(1);
         bundle.putString("name", name);
-        // Índice formateado con el símbolo # y 3 dígitos
         String index = String.format(Locale.ENGLISH, "#%04d", selectedPokemon.getId());
         bundle.putString("index", index);
-        // Altura formateada con dos decimales en metros
         bundle.putString("height", String.format(Locale.ENGLISH, "%.2f m", selectedPokemon.getHeight() / 10.0));
-        // Peso formateado con dos decimales en kilogramos
         bundle.putString("weight", String.format(Locale.ENGLISH, "%.2f kg", selectedPokemon.getWeight() / 10.0));
         bundle.putString("type1", selectedPokemon.getImageTypes().get(0));
         if (selectedPokemon.getImageTypes().size() > 1) {

@@ -8,6 +8,8 @@
     <!-- PokemonCapturedFragment Snackbar strings -->
     <string name="undo">Deshacer</string>
     <string name="pokemon_removed">"Pokémon eliminado:"</string>
+    <string name="pokemon_added">"Pokémon capturado:"</string>
+
 
     <!-- Settings Strings -->
     <string name="languages">Idiomas</string>
@@ -50,6 +52,16 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="ok">Aceptar</string>
+
+    <!-- Settings Toast Strings -->
+    <string name="language_changed">Language changed to english</string>
+    <string name="toas_pokemon_generation">Cambio de generación Pokémon realizado</string>
+    <string name="toast_delete_pokemon">Opciones para eliminar Pokémon</string>
+    <string name="activated">activadas</string>
+    <string name="disabled">desactivadas</string>
+    <string name="toast_order_by">Cambio de tipo de orden realizado</string>
+    <string name="toast_order_asc_desc">Cambio de orden realizado</string>
+
 
     <!-- Pokedex and CapturedPokemon Strings -->
     <string name="height">Altura:</string>

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -90,12 +92,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void logout() {
-        new android.app.AlertDialog.Builder(requireContext()).setTitle(R.string.end_session).setMessage(R.string.end_session_message).setPositiveButton(R.string.yes, (dialog, which) -> AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
-            Intent intent = new Intent(requireContext(), LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            requireActivity().finish();
-        })).setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss()).show();
+        new android.app.AlertDialog.Builder(requireContext()).setTitle(R.string.end_session).setMessage(R.string.end_session_message)
+                .setPositiveButton(R.string.yes, (dialog, which) -> AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
+                    Intent intent = new Intent(requireContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    requireActivity().finish();
+                    Log.d(TAG, "User signed out");
+                })).setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss()).show();
     }
 
     private void showAboutDialog() {
@@ -112,6 +116,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 ListPreference lp = findPreference(PREF_LANGUAGE);
                 if (lp != null) {
                     lp.setValue((String) value);
+                    Log.d(TAG, "Preferencia sincronizada con Firestore: " + lp.getKey() + " = " + value);
                 }
             }
         });
@@ -121,6 +126,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 ListPreference lp = findPreference(PREF_POKEMON_GENERATION);
                 if (lp != null) {
                     lp.setValue((String) value);
+                    Log.d(TAG, "Preferencia sincronizada con Firestore: " + lp.getKey() + " = " + value);
                 }
             }
         });
@@ -130,6 +136,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 SwitchPreferenceCompat spc = findPreference(PREF_DELETE_POKEMON);
                 if (spc != null) {
                     spc.setChecked((Boolean) value);
+                    Log.d(TAG, "Preferencia sincronizada con Firestore: " + spc.getKey() + " = " + value);
                 }
             }
         });
@@ -139,6 +146,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 ListPreference lp = findPreference(PREF_POKEMONS_ORDER_BY);
                 if (lp != null) {
                     lp.setValue((String) value);
+                    Log.d(TAG, "Preferencia sincronizada con Firestore: " + lp.getKey() + " = " + value);
                 }
             }
         });
@@ -148,6 +156,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 ListPreference lp = findPreference(PREF_POKEMONS_ORDER_ASC_DESC);
                 if (lp != null) {
                     lp.setValue((String) value);
+                    Log.d(TAG, "Preferencia sincronizada con Firestore: " + lp.getKey() + " = " + value);
                 }
             }
         });
@@ -169,34 +178,45 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                     appLocales = LocaleListCompat.forLanguageTags("en");
                 }
                 AppCompatDelegate.setApplicationLocales(appLocales);
+                Toast.makeText(requireContext(), getString(R.string.language_changed), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Idioma cambiado a " + newValue);
                 return true;
 
             case PREF_POKEMON_GENERATION:
-                new android.app.AlertDialog.Builder(requireContext()).setTitle(R.string.restart_app).setMessage(R.string.restart_app_message).setPositiveButton(R.string.restart, (dialog, which) -> {
-                    FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMON_GENERATION, newValue);
-                    sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
-                    Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
-                    if (intent != null) {
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                    requireActivity().finish();
-                }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).show();
+                new android.app.AlertDialog.Builder(requireContext()).setTitle(R.string.restart_app).setMessage(R.string.restart_app_message)
+                        .setPositiveButton(R.string.restart, (dialog, which) -> {
+                            FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMON_GENERATION, newValue);
+                            sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
+                            Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
+                            if (intent != null) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                Toast.makeText(requireContext(), getString(R.string.toas_pokemon_generation), Toast.LENGTH_LONG).show();
+                            }
+                            requireActivity().finish();
+                            Log.d(TAG, "Generación de Pokémon cambiada a " + newValue);
+                        }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).show();
                 return false;
 
             case PREF_DELETE_POKEMON:
                 FirestoreHelper.getInstance().updateUserSetting(user, PREF_DELETE_POKEMON, newValue);
                 sp.edit().putBoolean(PREF_DELETE_POKEMON, (Boolean) newValue).apply();
+                Toast.makeText(requireContext(), getString(R.string.toast_delete_pokemon) + " " + ((boolean) newValue ? getString(R.string.activated) : getString(R.string.disabled)), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Eliminar Pokémon activado: " + newValue);
                 return true;
 
             case PREF_POKEMONS_ORDER_BY:
                 FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMONS_ORDER_BY, newValue);
                 sp.edit().putString(PREF_POKEMONS_ORDER_BY, (String) newValue).apply();
+                Toast.makeText(requireContext(), getString(R.string.toast_order_by), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Ordenar Pokémon por: " + newValue);
                 return true;
 
             case PREF_POKEMONS_ORDER_ASC_DESC:
                 FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMONS_ORDER_ASC_DESC, newValue);
                 sp.edit().putString(PREF_POKEMONS_ORDER_ASC_DESC, (String) newValue).apply();
+                Toast.makeText(requireContext(), getString(R.string.toast_order_asc_desc), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Ordenar Pokémon de forma: " + newValue);
                 return true;
 
             default:

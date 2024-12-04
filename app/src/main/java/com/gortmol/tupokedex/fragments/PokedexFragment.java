@@ -12,8 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.gortmol.tupokedex.R;
 import com.gortmol.tupokedex.data.FirestoreHelper;
 import com.gortmol.tupokedex.data.PokeApiHelper;
 import com.gortmol.tupokedex.databinding.FragmentPokedexListBinding;
@@ -105,13 +107,16 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         Pokemon pokemon = pokemonList.get(position);
 
         PokeApiHelper.getInstance().getPokemonById(pokemon.getId(), pokemonCaptured -> {
+            String pokemonName = pokemonCaptured.getName().substring(0, 1).toUpperCase() + pokemonCaptured.getName().substring(1);
             if (!pokemon.isCaptured()) {
                 pokemon.setCaptured(true);
                 FirestoreHelper.getInstance().addPokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
+                Snackbar.make(binding.getRoot(), getString(R.string.pokemon_added) + " " + pokemonName, Snackbar.LENGTH_LONG).show();
                 Log.d(TAG, "Pokémon capturado: " + pokemonCaptured.getName());
             } else if (sp.getBoolean(SettingsFragment.PREF_DELETE_POKEMON, false)) {
                 pokemon.setCaptured(false);
                 FirestoreHelper.getInstance().deletePokemon(pokemonCaptured, FirebaseAuth.getInstance().getCurrentUser());
+                Snackbar.make(binding.getRoot(), getString(R.string.pokemon_removed) + " " + pokemonName, Snackbar.LENGTH_LONG).show();
                 Log.d(TAG, "Pokémon liberado: " + pokemon.getName());
             }
             adapter.notifyItemChanged(position);
