@@ -19,13 +19,13 @@ import java.util.ArrayList;
 public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<CapturedPokemonRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Pokemon> pokemonCaptureds;
-    private CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener onPokemonClickListener;
-    private CapturedPokemonRecyclerViewAdapter.OnDeleteClickListener onDeleteClickListener;
+    private final CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener onPokemonClickListener;
+    private final CapturedPokemonRecyclerViewAdapter.OnDeleteClickListener onDeleteClickListener;
     private boolean deleteEnabled = false;
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         FragmentCapturedPokemonBinding binding = FragmentCapturedPokemonBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
@@ -118,6 +118,7 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
             }
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + binding.name.getText() + "'";

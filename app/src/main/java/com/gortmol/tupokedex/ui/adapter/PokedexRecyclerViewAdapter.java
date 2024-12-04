@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Pokemon> pokemons;
-    private OnPokemonClickListener listener;
+    private final OnPokemonClickListener listener;
 
     public interface OnPokemonClickListener {
         void onPokemonClick(int position);
@@ -37,7 +37,7 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         FragmentPokedexBinding binding = FragmentPokedexBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
@@ -82,6 +82,7 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
             Picasso.with(binding.getRoot().getContext()).load(pokemon.getImageUrl()).into(binding.pokemonSprite);
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + binding.pokemonName.getText() + "'";

@@ -4,23 +4,7 @@
     <string name="captured_pokemon">Pokémon capturados</string>
     <string name="pokedex">Pokédex</string>
     <string name="settings">Ajustes</string>
-
-    <!-- Login Strings -->
-    <string name="login_image_content">Logo de la aplicación</string>
-    <string name="hint_username">Correo electrónico</string>
-    <string name="hint_password">Contraseña</string>
-    <string name="btn_login">Iniciar sesión</string>
-    <string name="btn_register_email_password">Registrarse con correo electrónico y contraseña</string>
-    <string name="btn_register_google">Inicio de sesión o registro con Google"</string>
-    <string name="sign_in_cancelled">Inicio de sesión cancelado</string>
-    <string name="no_internet_connection">Conexión a internet no disponible</string>
-    <string name="unknown_error">Ha ocurrido un error desconocido</string>
-    <string name="empty_fields">El usuario y/o la contraseña están vacíos</string>
-    <string name="sign_in_failed">Fallo al iniciar sesión</string>
-    <string name="invalid_email">Correo no válido</string>
-    <string name="password_length">La contraseña debe tener mínimo 6 caracteres</string>
-    <string name="password_error">La contraseña debe contener, como mínimo, letras en minúscula y números</string>
-
+    
     <!-- PokemonCapturedFragment Snackbar strings -->
     <string name="undo">Deshacer</string>
     <string name="pokemon_removed">"Pokémon eliminado:"</string>

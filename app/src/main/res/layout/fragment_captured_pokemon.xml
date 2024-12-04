@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="horizontal"
     android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="4dp">
+    android:layout_marginVertical="4dp"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +18,7 @@
             android:id="@+id/pokemon_image"
             android:layout_width="@dimen/pokemon_captured_image_size"
             android:layout_height="@dimen/pokemon_captured_image_size"
+            android:contentDescription="@string/image"
             android:padding="10dp" />
 
         <LinearLayout
@@ -56,12 +57,14 @@
                     android:id="@+id/ability_image1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/image"
                     android:padding="3dp" />
 
                 <ImageView
                     android:id="@+id/ability_image2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/image"
                     android:padding="3dp" />
 
             </LinearLayout>
@@ -80,9 +83,9 @@
 
                 <TextView
                     android:id="@+id/height"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -100,9 +103,9 @@
 
                 <TextView
                     android:id="@+id/weight"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -113,6 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
+            android:contentDescription="@string/image"
             android:src="@drawable/ic_delete" />
 
     </LinearLayout>

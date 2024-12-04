@@ -86,17 +86,15 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
                 Pokemon removedPokemon = pokemonList.remove(position);
                 FirestoreHelper.getInstance()
                         .deletePokemon(removedPokemon, FirebaseAuth.getInstance().getCurrentUser());
-                showSnackbarPokemonRemoved(removedPokemon, position);
+                showSnackbarPokemonRemoved(removedPokemon);
             }
         });
     }
 
-    private void showSnackbarPokemonRemoved(Pokemon removedPokemon, int position) {
+    private void showSnackbarPokemonRemoved(Pokemon removedPokemon) {
         Snackbar.make(binding.getRoot(), getString(R.string.pokemon_removed) + " " + removedPokemon.getName(), Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, v -> {
-                    FirestoreHelper.getInstance()
-                            .addPokemon(removedPokemon, FirebaseAuth.getInstance().getCurrentUser());
-                }).show();
+                .setAction(R.string.undo, v -> FirestoreHelper.getInstance()
+                        .addPokemon(removedPokemon, FirebaseAuth.getInstance().getCurrentUser())).show();
     }
 
     private void setDeleteEnabled(boolean enabled) {
@@ -115,18 +113,17 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
 
     private void initializeSharedPreferencesListener() {
         preferenceChangeListener = (sharedPreferences, key) -> {
-            switch (key) {
-
-                case SettingsFragment.PREF_DELETE_POKEMON:
-                    boolean deletePokemon = sharedPreferences.getBoolean(SettingsFragment.PREF_DELETE_POKEMON, false);
-                    this.setDeleteEnabled(deletePokemon);
-                    break;
-
-                case SettingsFragment.PREF_POKEMONS_ORDER_BY:
-
-                case SettingsFragment.PREF_POKEMONS_ORDER_ASC_DESC:
-                    loadCapturedPokemons(FirebaseAuth.getInstance().getCurrentUser());
-                    break;
+            if (key != null) {
+                switch (key) {
+                    case SettingsFragment.PREF_DELETE_POKEMON:
+                        boolean deletePokemon = sharedPreferences.getBoolean(SettingsFragment.PREF_DELETE_POKEMON, false);
+                        this.setDeleteEnabled(deletePokemon);
+                        break;
+                    case SettingsFragment.PREF_POKEMONS_ORDER_BY:
+                    case SettingsFragment.PREF_POKEMONS_ORDER_ASC_DESC:
+                        loadCapturedPokemons(FirebaseAuth.getInstance().getCurrentUser());
+                        break;
+                }
             }
         };
     }
@@ -186,7 +183,7 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
         Pokemon removedPokemon = pokemonList.get(position);
         FirestoreHelper.getInstance()
                 .deletePokemon(removedPokemon, FirebaseAuth.getInstance().getCurrentUser());
-        showSnackbarPokemonRemoved(removedPokemon, position);
+        showSnackbarPokemonRemoved(removedPokemon);
     }
 
     @Override
