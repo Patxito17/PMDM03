@@ -19,16 +19,8 @@ public class PokemonDetailsResponse {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUrl(){
@@ -39,24 +31,8 @@ public class PokemonDetailsResponse {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public int getWeight() {
         return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public ArrayList<TypeSlot> getTypes() {
-        return types;
-    }
-
-    public void setTypes(ArrayList<TypeSlot> types) {
-        this.types = types;
     }
 
     public ArrayList<String> getTypeImages() {

@@ -90,32 +90,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void logout() {
-        new android.app.AlertDialog.Builder(requireContext())
-                .setTitle(R.string.end_session)
-                .setMessage(R.string.end_session_message)
-                .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
-                        Intent intent = new Intent(requireContext(), LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        requireActivity().finish();
-                    });
-
-                })
-                .setNegativeButton(R.string.no, (dialog, which) -> {
-                    dialog.dismiss();
-                })
-                .show();
+        new android.app.AlertDialog.Builder(requireContext()).setTitle(R.string.end_session).setMessage(R.string.end_session_message).setPositiveButton(R.string.yes, (dialog, which) -> AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(task -> {
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            requireActivity().finish();
+        })).setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss()).show();
     }
 
     private void showAboutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.requireContext());
-        builder.setTitle(R.string.about)
-                .setMessage(R.string.about_message)
-                .setIcon(R.drawable.ic_about)
-                .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    dialog.dismiss();
-                });
+        builder.setTitle(R.string.about).setMessage(R.string.about_message).setIcon(R.drawable.ic_about).setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
 
@@ -124,7 +109,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         fh.getUserSetting(user, PREF_LANGUAGE, value -> {
             if (value instanceof String) {
-                ListPreference lp = (ListPreference) findPreference(PREF_LANGUAGE);
+                ListPreference lp = findPreference(PREF_LANGUAGE);
                 if (lp != null) {
                     lp.setValue((String) value);
                 }
@@ -133,7 +118,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         fh.getUserSetting(user, PREF_POKEMON_GENERATION, value -> {
             if (value instanceof String) {
-                ListPreference lp = (ListPreference) findPreference(PREF_POKEMON_GENERATION);
+                ListPreference lp = findPreference(PREF_POKEMON_GENERATION);
                 if (lp != null) {
                     lp.setValue((String) value);
                 }
@@ -142,7 +127,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         fh.getUserSetting(user, PREF_DELETE_POKEMON, value -> {
             if (value instanceof Boolean) {
-                SwitchPreferenceCompat spc = (SwitchPreferenceCompat) findPreference(PREF_DELETE_POKEMON);
+                SwitchPreferenceCompat spc = findPreference(PREF_DELETE_POKEMON);
                 if (spc != null) {
                     spc.setChecked((Boolean) value);
                 }
@@ -151,7 +136,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         fh.getUserSetting(user, PREF_POKEMONS_ORDER_BY, value -> {
             if (value instanceof String) {
-                ListPreference lp = (ListPreference) findPreference(PREF_POKEMONS_ORDER_BY);
+                ListPreference lp = findPreference(PREF_POKEMONS_ORDER_BY);
                 if (lp != null) {
                     lp.setValue((String) value);
                 }
@@ -160,7 +145,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         fh.getUserSetting(user, PREF_POKEMONS_ORDER_ASC_DESC, value -> {
             if (value instanceof String) {
-                ListPreference lp = (ListPreference) findPreference(PREF_POKEMONS_ORDER_ASC_DESC);
+                ListPreference lp = findPreference(PREF_POKEMONS_ORDER_ASC_DESC);
                 if (lp != null) {
                     lp.setValue((String) value);
                 }
@@ -175,7 +160,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         switch (preference.getKey()) {
 
             case PREF_LANGUAGE:
-                FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_LANGUAGE, newValue);
+                FirestoreHelper.getInstance().updateUserSetting(user, PREF_LANGUAGE, newValue);
                 sp.edit().putString(PREF_LANGUAGE, (String) newValue).apply();
                 LocaleListCompat appLocales;
                 if (newValue.equals("es")) {
@@ -187,38 +172,30 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
 
             case PREF_POKEMON_GENERATION:
-                new android.app.AlertDialog.Builder(requireContext())
-                        .setTitle(R.string.restart_app)
-                        .setMessage(R.string.restart_app_message)
-                        .setPositiveButton(R.string.restart, (dialog, which) -> {
-                            FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_POKEMON_GENERATION, newValue);
-                            sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
-                            Intent intent = requireContext().getPackageManager()
-                                    .getLaunchIntentForPackage(requireContext().getPackageName());
-                            if (intent != null) {
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                            requireActivity().finish();
-                        })
-                        .setNegativeButton(R.string.cancel, (dialog, which) -> {
-                            dialog.dismiss();
-                        })
-                        .show();
+                new android.app.AlertDialog.Builder(requireContext()).setTitle(R.string.restart_app).setMessage(R.string.restart_app_message).setPositiveButton(R.string.restart, (dialog, which) -> {
+                    FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMON_GENERATION, newValue);
+                    sp.edit().putString(PREF_POKEMON_GENERATION, (String) newValue).apply();
+                    Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
+                    if (intent != null) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                    requireActivity().finish();
+                }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).show();
                 return false;
 
             case PREF_DELETE_POKEMON:
-                FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_DELETE_POKEMON, newValue);
+                FirestoreHelper.getInstance().updateUserSetting(user, PREF_DELETE_POKEMON, newValue);
                 sp.edit().putBoolean(PREF_DELETE_POKEMON, (Boolean) newValue).apply();
                 return true;
 
             case PREF_POKEMONS_ORDER_BY:
-                FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_POKEMONS_ORDER_BY, newValue);
+                FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMONS_ORDER_BY, newValue);
                 sp.edit().putString(PREF_POKEMONS_ORDER_BY, (String) newValue).apply();
                 return true;
 
             case PREF_POKEMONS_ORDER_ASC_DESC:
-                FirestoreHelper.getInstance().updateUserSetting(requireContext(), user, PREF_POKEMONS_ORDER_ASC_DESC, newValue);
+                FirestoreHelper.getInstance().updateUserSetting(user, PREF_POKEMONS_ORDER_ASC_DESC, newValue);
                 sp.edit().putString(PREF_POKEMONS_ORDER_ASC_DESC, (String) newValue).apply();
                 return true;
 

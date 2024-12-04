@@ -14,7 +14,6 @@ import androidx.core.os.LocaleListCompat;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
-import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.gortmol.tupokedex.data.FirestoreHelper;
@@ -67,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     );
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
-        if (result.getResultCode() == RESULT_OK) {
+        if (result.getResultCode() == RESULT_OK && FirebaseAuth.getInstance().getCurrentUser() != null) {
             // Successfully signed in
             Log.d(TAG, "Usuario autenticado: " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
             goToMainActivity();
@@ -79,9 +78,15 @@ public class LoginActivity extends AppCompatActivity {
         FirestoreHelper.getInstance().downloadUserSettings(FirebaseAuth.getInstance().getCurrentUser(), settings -> {
             for (String key : settings.keySet()) {
                 if (key.equals(SettingsFragment.PREF_DELETE_POKEMON)) {
-                    sp.edit().putBoolean(key, (boolean) settings.get(key)).apply();
-                    Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + settings.get(key));
-                } else {
+                    if (settings.get(key) instanceof Boolean) {
+                        Boolean value = (Boolean) settings.get(key);
+                        if (value != null) {
+                            sp.edit().putBoolean(key, value).apply();
+                            Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + value);
+                        } else {
+                            Log.w(TAG, "Valor nulo para la clave: " + key);
+                        }
+                    }                } else {
                     sp.edit().putString(key, String.valueOf(settings.get(key))).apply();
                     Log.d(TAG, "Configuración cargada en SharedPreferences: " + key + " = " + settings.get(key));
                 }

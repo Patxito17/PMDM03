@@ -25,6 +25,7 @@ import com.gortmol.tupokedex.model.Pokemon;
 import com.gortmol.tupokedex.ui.adapter.CapturedPokemonRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CapturedPokemonFragment extends Fragment implements CapturedPokemonRecyclerViewAdapter.OnPokemonClickListener, CapturedPokemonRecyclerViewAdapter.OnDeleteClickListener {
 
@@ -47,7 +48,8 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sp = getActivity().getSharedPreferences(SettingsFragment.PREF_NAME, Context.MODE_PRIVATE);
+        if (getActivity() != null)
+            sp = getActivity().getSharedPreferences(SettingsFragment.PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -115,11 +117,14 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
         preferenceChangeListener = (sharedPreferences, key) -> {
             if (key != null) {
                 switch (key) {
+
                     case SettingsFragment.PREF_DELETE_POKEMON:
                         boolean deletePokemon = sharedPreferences.getBoolean(SettingsFragment.PREF_DELETE_POKEMON, false);
                         this.setDeleteEnabled(deletePokemon);
                         break;
+
                     case SettingsFragment.PREF_POKEMONS_ORDER_BY:
+
                     case SettingsFragment.PREF_POKEMONS_ORDER_ASC_DESC:
                         loadCapturedPokemons(FirebaseAuth.getInstance().getCurrentUser());
                         break;
@@ -129,7 +134,7 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
     }
 
     private void loadCapturedPokemons(FirebaseUser user) {
-        if (user != null) {
+        if (user != null && getActivity() != null) {
             SharedPreferences sp = getActivity().getSharedPreferences(SettingsFragment.PREF_NAME, 0);
             String orderType = sp.getString(SettingsFragment.PREF_POKEMONS_ORDER_BY, "id");
             Log.d(TAG, "Order Type: " + orderType);
@@ -165,12 +170,12 @@ public class CapturedPokemonFragment extends Fragment implements CapturedPokemon
         String name = selectedPokemon.getName().substring(0, 1).toUpperCase() + selectedPokemon.getName().substring(1);
         bundle.putString("name", name);
         // Índice formateado con el símbolo # y 3 dígitos
-        String index = String.format("#%04d", selectedPokemon.getId());
+        String index = String.format(Locale.ENGLISH, "#%04d", selectedPokemon.getId());
         bundle.putString("index", index);
         // Altura formateada con dos decimales en metros
-        bundle.putString("height", String.format("%.2f m", selectedPokemon.getHeight() / 10.0));
+        bundle.putString("height", String.format(Locale.ENGLISH, "%.2f m", selectedPokemon.getHeight() / 10.0));
         // Peso formateado con dos decimales en kilogramos
-        bundle.putString("weight", String.format("%.2f kg", selectedPokemon.getWeight() / 10.0));
+        bundle.putString("weight", String.format(Locale.ENGLISH, "%.2f kg", selectedPokemon.getWeight() / 10.0));
         bundle.putString("type1", selectedPokemon.getImageTypes().get(0));
         if (selectedPokemon.getImageTypes().size() > 1) {
             bundle.putString("type2", selectedPokemon.getImageTypes().get(1));

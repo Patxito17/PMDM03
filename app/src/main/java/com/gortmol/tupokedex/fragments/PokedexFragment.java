@@ -41,7 +41,8 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sp = getActivity().getSharedPreferences(SettingsFragment.PREF_NAME, Context.MODE_PRIVATE);
+        if (getActivity() != null)
+            sp = getActivity().getSharedPreferences(SettingsFragment.PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -54,8 +55,8 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         initializeSharedPreferencesListener();
         sp.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 
-        int offset = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("-")[0]);
-        int limit = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("-")[1]);
+        int offset = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("–")[0]);
+        int limit = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("–")[1]);
         loadPokemonsList(offset, limit);
 
         return binding.getRoot();
@@ -65,7 +66,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         preferenceChangeListener = (sharedPreferences, key) -> {
             if (key != null && key.equals(SettingsFragment.PREF_POKEMON_GENERATION)) {
                 String pokemonGeneration = sharedPreferences.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
-                String[] generationRange = pokemonGeneration.split("-");
+                String[] generationRange = pokemonGeneration.split("–");
                 int start = Integer.parseInt(generationRange[0]);
                 int end = Integer.parseInt(generationRange[1]);
                 loadPokemonsList(start, end);
@@ -88,9 +89,11 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
 
             listenToCapturedPokemonIds = FirestoreHelper.getInstance().listenToCapturedPokemonIds(FirebaseAuth.getInstance().getCurrentUser(), capturedPokemonIdList -> {
                 for (Pokemon pokemon : pokemons) {
-                    pokemon.setCaptured(capturedPokemonIdList.contains(String.valueOf(pokemon.getId())));
+                    if (capturedPokemonIdList.contains(String.valueOf(pokemon.getId())) && !pokemon.isCaptured()) {
+                        pokemon.setCaptured(true);
+                        adapter.notifyItemChanged(pokemons.indexOf(pokemon));
+                    }
                 }
-                adapter.notifyDataSetChanged();
                 Log.d(TAG, "Lista de Pokémon actualizada con estado de captura.");
                 pokemonList = pokemons;
             });

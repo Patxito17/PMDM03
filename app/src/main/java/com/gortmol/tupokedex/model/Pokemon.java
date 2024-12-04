@@ -33,24 +33,8 @@ public class Pokemon {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setId() {
@@ -60,10 +44,6 @@ public class Pokemon {
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public void setImageUrl() {
@@ -76,24 +56,12 @@ public class Pokemon {
         return imageTypes;
     }
 
-    public void setImageTypes(ArrayList<String> imageTypes) {
-        this.imageTypes = imageTypes;
-    }
-
     public double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
     public double getHeight() {
         return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     public boolean isCaptured() {

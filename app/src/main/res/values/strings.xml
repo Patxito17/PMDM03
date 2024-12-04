@@ -4,7 +4,7 @@
     <string name="captured_pokemon">Pokémon capturados</string>
     <string name="pokedex">Pokédex</string>
     <string name="settings">Ajustes</string>
-    
+
     <!-- PokemonCapturedFragment Snackbar strings -->
     <string name="undo">Deshacer</string>
     <string name="pokemon_removed">"Pokémon eliminado:"</string>
@@ -36,10 +36,8 @@
     <string name="user">Usuario</string>
     <string name="logout_summary">Cierra la sesión del usuario actual</string>
     <string name="logout_title">Cerrar sesión</string>
-    <string name="captured">Capturado</string>
 
     <!-- Settings Toast Strings -->
-    <string name="language_changed">Idioma cambiado correctamente</string>
 
     <!-- Settings Alert Dialog Strings -->
     <string name="restart_app">Reiniciar aplicación</string>

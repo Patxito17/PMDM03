@@ -1,7 +1,5 @@
 package com.gortmol.tupokedex.data;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,7 +30,6 @@ public class FirestoreHelper {
 
     private static FirestoreHelper instance;
     private final FirebaseFirestore db;
-    private SharedPreferences sp;
 
     private FirestoreHelper() {
         this.db = FirebaseFirestore.getInstance();
@@ -162,7 +159,7 @@ public class FirestoreHelper {
                 });
     }
 
-    public void updateUserSetting(Context context, FirebaseUser user, String key, Object newValue) {
+    public void updateUserSetting(FirebaseUser user, String key, Object newValue) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
             return;
@@ -178,52 +175,6 @@ public class FirestoreHelper {
                 .addOnFailureListener(e -> Log.e(TAG, "Error al sincronizar ajuste con Firestore: ", e));
     }
 
-    public void listenToSettingsUpdate(FirebaseUser user, String key, Consumer<Object> callback) {
-        if (user == null) {
-            Log.e(TAG, "Error: Usuario no autenticado");
-            return;
-        }
-
-        db.collection(USERS_COLLECTION).document(user.getUid())
-                .collection(USER_SETTINGS_COLLECTION).document(APP_SETTINGS_DOCUMENT)
-                .addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.e(TAG, "Error al escuchar los ajustes: ", e);
-                        return;
-                    }
-                    if (snapshots != null) {
-                        Object newValue = snapshots.get(key);
-                        callback.accept(newValue);
-                        Log.d(TAG, "Listener de ajustes actualizado: " + key + " = " + newValue);
-                    }
-                });
-
-    }
-
-    public void getCapturedPokemonsIds(FirebaseUser user, Consumer<ArrayList<String>> callback) {
-        if (user == null) {
-            Log.e(TAG, "Error: Usuario no autenticado");
-            callback.accept(new ArrayList<>());
-            return;
-        }
-
-        db.collection(USERS_COLLECTION).document(user.getUid())
-                .collection(CAPTURED_POKEMONS_COLLECTION)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<String> capturedPokemonIdList = new ArrayList<>();
-                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        capturedPokemonIdList.add(document.getId());
-                    }
-                    callback.accept(capturedPokemonIdList);
-                    Log.d(TAG, "Obtenidos Ids de Pokémon capturados: " + capturedPokemonIdList.size() + " Pokémon");
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error al obtener los Pokémon capturados: ", e);
-                });
-    }
-
-
     public ListenerRegistration listenToCapturedPokemons(FirebaseUser user, String orderType, String orderDirection, Consumer<ArrayList<Pokemon>> callback) {
         if (user == null) {
             Log.e(TAG, "Error: Usuario no autenticado");
@@ -232,7 +183,7 @@ public class FirestoreHelper {
         }
 
         Query.Direction direction = orderDirection.equals("asc") ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
-        ListenerRegistration registration = db.collection(USERS_COLLECTION).document(user.getUid())
+        return db.collection(USERS_COLLECTION).document(user.getUid())
                 .collection(CAPTURED_POKEMONS_COLLECTION).orderBy(orderType, direction)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
@@ -250,7 +201,6 @@ public class FirestoreHelper {
                         Log.d(TAG, "Listener de Pokémon capturados actualizado: " + capturedPokemonList.size() + " Pokémon");
                     }
                 });
-        return registration;
     }
 
     public ListenerRegistration listenToCapturedPokemonIds(FirebaseUser user, Consumer<ArrayList<String>> callback) {
@@ -259,7 +209,7 @@ public class FirestoreHelper {
             return null;
         }
 
-        ListenerRegistration registration = db.collection(USERS_COLLECTION).document(user.getUid())
+        return db.collection(USERS_COLLECTION).document(user.getUid())
                 .collection(CAPTURED_POKEMONS_COLLECTION)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
@@ -275,6 +225,5 @@ public class FirestoreHelper {
                         Log.d(TAG, "Listener de Pokémon (IDs) capturados actualizado: " + capturedPokemonIdList.size() + " Pokémon");
                     }
                 });
-        return registration;
     }
 }

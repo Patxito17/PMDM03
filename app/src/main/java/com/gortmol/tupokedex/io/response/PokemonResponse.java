@@ -11,7 +11,4 @@ public class PokemonResponse {
         return results;
     }
 
-    public void setResults(ArrayList<Pokemon> results) {
-        this.results = results;
-    }
 }

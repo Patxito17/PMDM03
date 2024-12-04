@@ -12,6 +12,7 @@ import com.gortmol.tupokedex.model.Pokemon;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Pokemon}.
@@ -67,7 +68,7 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
 
     public void setDeleteEnabled(boolean enabled) {
         this.deleteEnabled = enabled;
-        notifyDataSetChanged(); // Refresca todos los elementos del RecyclerView para reflejar el cambio
+        notifyDataSetChanged();
     }
 
     public interface OnPokemonClickListener {
@@ -99,22 +100,22 @@ public class CapturedPokemonRecyclerViewAdapter extends RecyclerView.Adapter<Cap
 
         public void bind(Pokemon currentPokemon) {
 
-            Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageUrl()).into(binding.pokemonImage);
+            Picasso.get().load(currentPokemon.getImageUrl()).into(binding.pokemonImage);
             // Índice formateado a tres dígitos
-            String formattedIndex = String.format("#%04d", currentPokemon.getId());
+            String formattedIndex = String.format(Locale.ENGLISH, "#%04d", currentPokemon.getId());
             binding.id.setText(formattedIndex);
             // Nombre formateado, primera letra en mayúscula
             String formattedName = currentPokemon.getName().substring(0, 1).toUpperCase() + currentPokemon.getName().substring(1);
             binding.name.setText(formattedName);
             // Altura formateada a metros
-            String formattedHeight = String.format("%.2f m", currentPokemon.getHeight() / 10.0);
+            String formattedHeight = String.format(Locale.ENGLISH, "%.2f m", currentPokemon.getHeight() / 10.0);
             binding.height.setText(formattedHeight);
             // Peso formateado a kilogramos
-            String formattedWeight = String.format("%.2f kg", currentPokemon.getWeight() / 10.0);
+            String formattedWeight = String.format(Locale.ENGLISH, "%.2f kg", currentPokemon.getWeight() / 10.0);
             binding.weight.setText(formattedWeight);
-            Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(0)).into(binding.abilityImage1);
+            Picasso.get().load(currentPokemon.getImageTypes().get(0)).into(binding.abilityImage1);
             if (currentPokemon.getImageTypes().size() > 1) {
-                Picasso.with(binding.getRoot().getContext()).load(currentPokemon.getImageTypes().get(1)).into(binding.abilityImage2);
+                Picasso.get().load(currentPokemon.getImageTypes().get(1)).into(binding.abilityImage2);
             }
         }
 

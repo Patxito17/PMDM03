@@ -23,15 +23,15 @@
     </string-array>
 
     <string-array name="pokemon_generation_values">
-        <item>0-151</item>
-        <item>151-100</item>
-        <item>251-135</item>
-        <item>386-107</item>
-        <item>493-156</item>
-        <item>649-72</item>
-        <item>721-88</item>
-        <item>809-96</item>
-        <item>905-112</item>
+        <item>0–151</item>
+        <item>151–100</item>
+        <item>251–135</item>
+        <item>386–107</item>
+        <item>493–156</item>
+        <item>649–72</item>
+        <item>721–88</item>
+        <item>809–96</item>
+        <item>905–112</item>
     </string-array>
 
 

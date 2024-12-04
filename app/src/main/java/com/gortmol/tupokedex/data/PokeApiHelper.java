@@ -33,7 +33,7 @@ public class PokeApiHelper {
 
     public void getPokemonList(int offset, int limit, Consumer<ArrayList<Pokemon>> callback) {
         Call<PokemonResponse> call = PokemonApiAdapter.getApiService().getPokemonList(offset, limit);
-        call.enqueue(new Callback<PokemonResponse>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<PokemonResponse> call, @NonNull Response<PokemonResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -53,7 +53,7 @@ public class PokeApiHelper {
 
     public void getPokemonById(int id, Consumer<Pokemon> callback) {
         Call<PokemonDetailsResponse> call = PokemonApiAdapter.getApiService().getPokemonDetails(id);
-        call.enqueue(new Callback<PokemonDetailsResponse>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<PokemonDetailsResponse> call, @NonNull Response<PokemonDetailsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

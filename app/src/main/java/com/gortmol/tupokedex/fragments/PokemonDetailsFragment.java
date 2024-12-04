@@ -29,16 +29,16 @@ public class PokemonDetailsFragment extends DialogFragment {
 
         if (getArguments() != null) {
             String image = getArguments().getString("image");
-            Picasso.with(this.getContext()).load(image).into(binding.image);
+            Picasso.get().load(image).into(binding.image);
             String index = getArguments().getString("index");
             binding.index.setText(index);
             String name = getArguments().getString("name");
             binding.name.setText(name);
             String type1 = getArguments().getString("type1");
-            Picasso.with(this.getContext()).load(type1).into(binding.type1);
+            Picasso.get().load(type1).into(binding.type1);
             if (getArguments().getString("type2") != null) {
                 String type2 = getArguments().getString("type2");
-                Picasso.with(this.getContext()).load(type2).into(binding.type2);
+                Picasso.get().load(type2).into(binding.type2);
             }
             String height = getArguments().getString("height");
             binding.height.setText(height);

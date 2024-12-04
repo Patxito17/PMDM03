@@ -36,11 +36,7 @@
     <string name="user">User</string>
     <string name="logout_summary">Log out from the current user</string>
     <string name="logout_title">Log Out</string>
-    <string name="captured">Captured</string>
-
-    <!-- Settings Toast Strings -->
-    <string name="language_changed">Language changed successfully</string>
-
+    
     <!-- Settings Alert Dialog Strings -->
     <string name="restart_app">Restart Application</string>
     <string name="end_session">Log Out</string>

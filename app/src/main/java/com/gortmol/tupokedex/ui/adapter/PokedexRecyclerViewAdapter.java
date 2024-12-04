@@ -13,6 +13,7 @@ import com.gortmol.tupokedex.model.Pokemon;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Pokemon}.
@@ -71,7 +72,7 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
         public void bind(Pokemon pokemon) {
             pokemon.setId();
             pokemon.setImageUrl();
-            String index = String.format("#%04d", pokemon.getId());
+            String index = String.format(Locale.ENGLISH, "#%04d", pokemon.getId());
             binding.pokemonIndex.setText(index);
             //
             binding.pokemonIndex.setTypeface(null, pokemon.isCaptured() ? Typeface.BOLD : Typeface.NORMAL);
@@ -79,7 +80,7 @@ public class PokedexRecyclerViewAdapter extends RecyclerView.Adapter<PokedexRecy
             binding.pokemonName.setText(name);
             binding.pokemonName.setTypeface(null, pokemon.isCaptured() ? Typeface.BOLD : Typeface.NORMAL);
             binding.pokemonCaptured.setVisibility(pokemon.isCaptured() ? View.VISIBLE : View.GONE);
-            Picasso.with(binding.getRoot().getContext()).load(pokemon.getImageUrl()).into(binding.pokemonSprite);
+            Picasso.get().load(pokemon.getImageUrl()).into(binding.pokemonSprite);
         }
 
         @NonNull
