@@ -25,8 +25,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
         android:id="@+id/pokemonName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,9 +34,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/pokemonCaptured"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/pokemonCaptured"
         android:layout_marginEnd="25dp"
         android:contentDescription="@string/image"
         android:src="@drawable/ic_pokemon_captured"

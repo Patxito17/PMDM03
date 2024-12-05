@@ -4,6 +4,7 @@
     <dimen name="pokemon_captured_image_size">100dp</dimen>
     <dimen name="pokemon_detail_image_size">400dp</dimen>
     <dimen name="margin_vertical">4dp</dimen>
+    <dimen name="margin_vertical_min">1dp</dimen>
     <dimen name="margin_horizontal">8dp</dimen>
     <dimen name="pokemon_detail_text_size">16sp</dimen>
 </resources>
