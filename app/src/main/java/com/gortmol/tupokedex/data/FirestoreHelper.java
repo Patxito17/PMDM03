@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class FirestoreHelper {
@@ -97,7 +98,7 @@ public class FirestoreHelper {
         Map<String, Object> defaultSettings = new HashMap<>();
         String language = Locale.getDefault().getLanguage().equals("es") ? "es" : "en";
         defaultSettings.put(SettingsFragment.PREF_LANGUAGE, language);
-        defaultSettings.put(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
+        defaultSettings.put(SettingsFragment.PREF_POKEMON_GENERATION, "0–151");
         defaultSettings.put(SettingsFragment.PREF_DELETE_POKEMON, false);
         defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_BY, "id");
         defaultSettings.put(SettingsFragment.PREF_POKEMONS_ORDER_ASC_DESC, "asc");
@@ -194,7 +195,7 @@ public class FirestoreHelper {
                         ArrayList<Pokemon> capturedPokemonList = new ArrayList<>();
                         for (DocumentSnapshot document : snapshots.getDocuments()) {
                             Pokemon pokemon = document.toObject(Pokemon.class);
-                            pokemon.setImageUrl();
+                            Objects.requireNonNull(pokemon).setImageUrl();
                             capturedPokemonList.add(pokemon);
                         }
                         callback.accept(capturedPokemonList);

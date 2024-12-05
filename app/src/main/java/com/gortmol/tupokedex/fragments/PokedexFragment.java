@@ -57,8 +57,8 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
         initializeSharedPreferencesListener();
         sp.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 
-        int offset = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("–")[0]);
-        int limit = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151").split("–")[1]);
+        int offset = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0–151").split("–")[0]);
+        int limit = Integer.parseInt(sp.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0–151").split("–")[1]);
         loadPokemonsList(offset, limit);
 
         return binding.getRoot();
@@ -67,7 +67,7 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
     private void initializeSharedPreferencesListener() {
         preferenceChangeListener = (sharedPreferences, key) -> {
             if (key != null && key.equals(SettingsFragment.PREF_POKEMON_GENERATION)) {
-                String pokemonGeneration = sharedPreferences.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0-151");
+                String pokemonGeneration = sharedPreferences.getString(SettingsFragment.PREF_POKEMON_GENERATION, "0–151");
                 String[] generationRange = pokemonGeneration.split("–");
                 int start = Integer.parseInt(generationRange[0]);
                 int end = Integer.parseInt(generationRange[1]);
@@ -93,6 +93,9 @@ public class PokedexFragment extends Fragment implements PokedexRecyclerViewAdap
                 for (Pokemon pokemon : pokemons) {
                     if (capturedPokemonIdList.contains(String.valueOf(pokemon.getId())) && !pokemon.isCaptured()) {
                         pokemon.setCaptured(true);
+                        adapter.notifyItemChanged(pokemons.indexOf(pokemon));
+                    } else if (!capturedPokemonIdList.contains(String.valueOf(pokemon.getId())) && pokemon.isCaptured()){
+                        pokemon.setCaptured(false);
                         adapter.notifyItemChanged(pokemons.indexOf(pokemon));
                     }
                 }
