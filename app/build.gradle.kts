@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.gortmol.tupokedex"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.google.firebase.firestore)
 
+    implementation(libs.core.splashscreen)
 
     implementation(libs.retrofit)
     implementation(libs.squareup.converter.gson)
