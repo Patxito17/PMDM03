@@ -14,7 +14,7 @@
 
         <!-- SplashScreen configuration-->
         <item name="postSplashScreenTheme">@style/Theme.TuPokedex</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
         <item name="android:windowSplashScreenAnimationDuration">2500</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/white</item>
         <item name="android:windowSplashScreenBackground">@color/yellow_pikachu</item>
