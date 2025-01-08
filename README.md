@@ -39,8 +39,8 @@
 ### 1. Clonar el Repositorio
 Clona el repositorio en tu máquina local ejecutando el siguiente comando en la terminal:
 ```bash
-git clone https://github.com/tu_usuario/pokemon-manager-app.git
-cd pokemon-manager-app
+git clone https://github.com/Patxito17/PMDM03.git
+cd PMDM03
 ```
 
 ### 2. Configurar Firebase
