@@ -1,4 +1,4 @@
-# Pokémon Manager App
+# Tu Pokédex
 
 ## Introducción
 
