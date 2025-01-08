@@ -11,15 +11,15 @@
     </string-array>
 
     <string-array name="pokemon_generation_options">
-        <item>Primera (Kanto)</item>
-        <item>Segunda (Johto)</item>
-        <item>Tercera (Hoenn)</item>
-        <item>Cuarta (Sinnoh)</item>
-        <item>Quinta (Unova)</item>
-        <item>Sexta (Kalos)</item>
-        <item>Séptima (Alola)</item>
-        <item>Octava (Galar)</item>
-        <item>Novena (Paldea)</item>
+        <item>@string/first_generation</item>
+        <item>@string/second_generation</item>
+        <item>@string/third_generation</item>
+        <item>@string/fourth_generation</item>
+        <item>@string/fifth_generation</item>
+        <item>@string/sixth_generation</item>
+        <item>@string/seventh_generation</item>
+        <item>@string/eighth_generation</item>
+        <item>@string/ninth_generation</item>
     </string-array>
 
     <string-array name="pokemon_generation_values">

@@ -19,7 +19,15 @@
     <string name="settings_app">App Settings</string>
     <string name="pref_pokemon_generation_summary">Select the Pokémon generation displayed in the Pokédex</string>
     <string name="pref_pokemon_generation_title">Pokémon Generation</string>
-    <string name="pref_delete_pokemon_summary">Enable or disable the deletion of Pokémon in the captured and Pokédex tabs</string>
+    <string name="first_generation">First (Kanto)</string>
+    <string name="second_generation">Second (Johto)</string>
+    <string name="third_generation">Third (Hoenn)</string>
+    <string name="fourth_generation">Fourth (Sinnoh)</string>
+    <string name="fifth_generation">Fifth (Unova)</string>
+    <string name="sixth_generation">Sixth (Kalos)</string>
+    <string name="seventh_generation">Seventh (Alola)</string>
+    <string name="eighth_generation">Eighth (Galar)</string>
+    <string name="ninth_generation">Ninth (Paldea)</string>    <string name="pref_delete_pokemon_summary">Enable or disable the deletion of Pokémon in the captured and Pokédex tabs</string>
     <string name="pref_delete_pokemon_title">Delete Captured Pokémon</string>
     <string name="pref_pokemons_order_asc_desc_summary">Select the order of the captured Pokémon list</string>
     <string name="pref_pokemons_order_asc_desc_title">Ascending or Descending</string>
