@@ -8,12 +8,11 @@
 
 ## Características Principales
 
-- **Autenticación de Usuarios:** Inicio de sesión y registro mediante Firebase Authentication, incluyendo soporte para autenticación con Google.
-- **Pokédex Completa:** Accede a una lista inicial de 150 Pokémon obtenidos de PokeAPI. Resalta los Pokémon capturados y permite seleccionarlos para agregarlos a su lista personal.
-- **Gestión de Pokémon Capturados:** Visualiza y administra los Pokémon capturados con datos detallados como tipo(s), peso y altura. Elimina Pokémon si la opción está habilitada en los ajustes.
-- **Ajustes Personalizables:** Cambia el idioma entre castellano e inglés, selecciona diferentes tipos de generación Pokémon, habilita o deshabilita la opción para eliminar Pokémon, configura el tipo de orden en el que se muestran los Pokémon capturados y cierra sesión.
-- **Estilo Visual Atractivo:** Diseño inspirado en el universo Pokémon con los colores más característicos.
-- **Responsive UI:** La interfaz se adapta a diferentes tamaños de pantalla para garantizar una experiencia óptima.
+- **Autenticación de usuarios:** Inicio de sesión y registro mediante Firebase Authentication, incluyendo soporte para autenticación con Google.
+- **Pokédex completa:** Accede a una lista inicial de 150 Pokémon obtenidos de PokeAPI. Resalta los Pokémon capturados y permite seleccionarlos para agregarlos a su lista personal.
+- **Gestión de pokémon capturados:** Visualiza y administra los Pokémon capturados con datos detallados como tipo(s), peso y altura. Elimina Pokémon si la opción está habilitada en los ajustes.
+- **Ajustes personalizables:** Cambia el idioma entre castellano e inglés, selecciona diferentes tipos de generación Pokémon, habilita o deshabilita la opción para eliminar Pokémon, configura el tipo de orden en el que se muestran los Pokémon capturados y cierra sesión.
+- **Estilo visual:** Diseño inspirado en el universo Pokémon con los colores más característicos.
 
 ---
 
