@@ -6,7 +6,7 @@
 
 ---
 
-## Características Principales
+## Características principales
 
 - **Autenticación de usuarios:** Inicio de sesión y registro mediante Firebase Authentication, incluyendo soporte para autenticación con Google.
 - **Pokédex completa:** Accede a una lista inicial de 150 Pokémon obtenidos de PokeAPI. Resalta los Pokémon capturados y permite seleccionarlos para agregarlos a su lista personal.
@@ -16,7 +16,7 @@
 
 ---
 
-## Tecnologías Utilizadas
+## Tecnologías utilizadas
 
 - **Librerías y Frameworks:**
   - **Firebase Authentication:** Gestión de usuarios.
@@ -32,11 +32,11 @@
 
 ---
 
-# Instrucciones para Ejecutar el Proyecto
+# Instrucciones para ejecutar el proyecto
 
-## Instrucciones de Uso
+## Instrucciones de uso
 
-### 1. Clonar el Repositorio
+### 1. Clonar el repositorio
 
 En Android Studio, selecciona *Get from VCS* e introduce la dirección URL: `https://github.com/Patxito17/PMDM03.git`.
 
@@ -46,49 +46,49 @@ git clone https://github.com/Patxito17/PMDM03.git
 cd PMDM03
 ```
 
-### 2. Configurar Firebase
+### 2. Configurar firebase
 - Accede a la [consola de Firebase](https://console.firebase.google.com/) y configura un nuevo proyecto si aún no tienes uno.
 - Descarga el archivo `google-services.json` desde la configuración de tu proyecto Firebase.
 - Coloca el archivo en el directorio `app/` del proyecto para permitir la integración con Firebase.
 
-### 3. Instalar Dependencias
+### 3. Instalar dependencias
 - Asegúrate de tener instalado Android Studio con el SDK de Android y Gradle configurado.
 - Abre el proyecto en Android Studio y sincroniza las dependencias seleccionando la opción **"Sync Project with Gradle Files"** en la parte superior de la ventana.
 
-### 4. Ejecutar la Aplicación
+### 4. Ejecutar la aplicación
 - Conecta un dispositivo Android físico con modo de desarrollador habilitado, o configura un emulador Android.
 - En Android Studio, selecciona el dispositivo desde el menú desplegable de dispositivos disponibles.
 - Haz clic en el botón **"Run"** (o presiona `Shift + F10`) para compilar y ejecutar la aplicación.
 
-### 5. Probar la Aplicación
+### 5. Probar la aplicación
 - Regístrate o inicia sesión con Firebase Authentication.
 - Explora las pestañas de la aplicación (Pokédex, Pokémon Capturados y Ajustes) y utiliza sus funcionalidades.
 
 ---
 
-## Notas Adicionales
+## Notas adicionales
 - Asegúrate de que tu archivo `google-services.json` esté correctamente configurado, ya que es esencial para la autenticación y el almacenamiento de datos.
 - Si encuentras errores de dependencias, verifica que tengas las versiones compatibles de las bibliotecas mencionadas en el archivo `build.gradle`.
 - Consulta la documentación oficial de [Firebase](https://firebase.google.com/docs) o [Android](https://developer.android.com/docs) si necesitas más ayuda.
 ---
 
-## Conclusiones del Desarrollador
+## Conclusiones del desarrollador
 
 El desarrollo de **Tu Pokédex** ha sido una tarea realmente interesante. La integración de Firebase y Retrofit han sido esenciales en cuanto a la funcionalidad de la app, tratando de tener en cuenta el desarrollo de un diseño amigable con el usuario. Trabajar con API externas y el manejo de datos en tiempo real con Firestore así como aprender a navegar por su docuementación ha sido esencial para poder conseguir completar la aplicación.
 
 ## Capturas de pantalla
 
-### Pantalla de Inicio
+### Pantalla de inicio de sesión
 <img src="screenshots/login.png" alt="Pantalla de Inicio" height="600"/>
 
-### Pantalla de Pokémons capturados
+### Pantalla de pokémons capturados
 <img src="screenshots/captured.png" alt="Pantalla de Pokémons Capturados" height="600"/>
 
-### Pantalla de los detalles del Pokémon
+### Pantalla de los detalles del pokémon
 <img src="screenshots/details.png" alt="Pantalla con detalles de un Pokémon capturado" height="600"/>
 
-### Pantalla de Pokédex
+### Pantalla de pokédex
 <img src="screenshots/pokedex.png" alt="Pantalla de Pokédex" height="600"/>
 
-### Pantalla de Ajustes
+### Pantalla de ajustes
 <img src="screenshots/settings.png" alt="Pantalla de Ajustes" height="600"/>
