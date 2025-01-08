@@ -37,7 +37,10 @@
 ## Instrucciones de Uso
 
 ### 1. Clonar el Repositorio
-Clona el repositorio en tu máquina local ejecutando el siguiente comando en la terminal:
+
+En Android Studio, selecciona Get from VCS e introduce la dirección URL: `https://github.com/Patxito17/PMDM03.git`.
+
+También se puede clonar el repositorio en tu máquina local ejecutando el siguiente comando en la terminal:
 ```bash
 git clone https://github.com/Patxito17/PMDM03.git
 cd PMDM03
