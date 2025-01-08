@@ -2,17 +2,17 @@
 
 ## Introducción
 
-**Pokémon Manager App** es una aplicación móvil diseñada para entrenadores Pokémon. Permite a los usuarios crear y gestionar una lista personalizada de Pokémon capturados, acceder a la Pokédex oficial, y configurar preferencias mediante una experiencia fluida y atractiva. La autenticación de usuarios y almacenamiento de datos se realiza a través de Firebase, y la Pokédex utiliza datos obtenidos directamente de la API oficial de Pokémon.
+**Tu Pokédex** es una aplicación móvil diseñada para capturar y almacenar Pokémon y sus detalles. Permite a los usuarios crear y gestionar una lista personalizada de Pokémon capturados, acceder a la Pokédex, y configurar preferencias de generación Pokémon, tipos de orden, etc. La autenticación de usuarios y almacenamiento de datos se realiza a través de Firebase, y la Pokédex utiliza datos obtenidos directamente de PokeAPI.
 
 ---
 
 ## Características Principales
 
 - **Autenticación de Usuarios:** Inicio de sesión y registro mediante Firebase Authentication, incluyendo soporte para autenticación con Google.
-- **Pokédex Completa:** Accede a una lista inicial de 150 Pokémon obtenidos de la API de Pokémon. Resalta los Pokémon capturados y permite seleccionarlos para agregarlos a tu lista personal.
+- **Pokédex Completa:** Accede a una lista inicial de 150 Pokémon obtenidos de PokeAPI. Resalta los Pokémon capturados y permite seleccionarlos para agregarlos a su lista personal.
 - **Gestión de Pokémon Capturados:** Visualiza y administra los Pokémon capturados con datos detallados como tipo(s), peso y altura. Elimina Pokémon si la opción está habilitada en los ajustes.
-- **Ajustes Personalizables:** Cambia el idioma entre castellano e inglés, habilita o deshabilita la opción para eliminar Pokémon, y cierra sesión.
-- **Estilo Visual Atractivo:** Diseño inspirado en el universo Pokémon, con colores vibrantes y llamativos.
+- **Ajustes Personalizables:** Cambia el idioma entre castellano e inglés, selecciona diferentes tipos de generación Pokémon, habilita o deshabilita la opción para eliminar Pokémon, configura el tipo de orden en el que se muestran los Pokémon capturados y cierra sesión.
+- **Estilo Visual Atractivo:** Diseño inspirado en el universo Pokémon con los colores más característicos.
 - **Responsive UI:** La interfaz se adapta a diferentes tamaños de pantalla para garantizar una experiencia óptima.
 
 ---
@@ -21,45 +21,44 @@
 
 - **Librerías y Frameworks:**
   - **Firebase Authentication:** Gestión de usuarios.
-  - **Firebase Firestore:** Almacenamiento de datos de los Pokémon capturados.
+  - **Firebase Firestore:** Almacenamiento de datos de los Pokémon capturados y de la configuración de cada usuario/a.
   - **Retrofit:** Consumo de la API de Pokémon.
+  - **Picasso:** Gestión de imágenes.
   - **RecyclerView y CardView:** Visualización interactiva de listas.
   - **SharedPreferences:** Almacenamiento de configuraciones locales.
 
-- **Lenguaje:** Java/Kotlin.  
+- **Lenguaje:** Java.  
 - **API Externa:** [PokéAPI](https://pokeapi.co/) para datos de la Pokédex.  
 - **Diseño:** Temas personalizados con colores Pokémon.  
 
 ---
 
+# Instrucciones para Ejecutar el Proyecto
+
 ## Instrucciones de Uso
 
-# Instrucciones para Ejecutar el Proyecto
-
-# Instrucciones para Ejecutar el Proyecto
-
-## 1. Clonar el Repositorio
+### 1. Clonar el Repositorio
 Clona el repositorio en tu máquina local ejecutando el siguiente comando en la terminal:
 ```bash
 git clone https://github.com/tu_usuario/pokemon-manager-app.git
 cd pokemon-manager-app
 ```
 
-## 2. Configurar Firebase
+### 2. Configurar Firebase
 - Accede a la [consola de Firebase](https://console.firebase.google.com/) y configura un nuevo proyecto si aún no tienes uno.
 - Descarga el archivo `google-services.json` desde la configuración de tu proyecto Firebase.
 - Coloca el archivo en el directorio `app/` del proyecto para permitir la integración con Firebase.
 
-## 3. Instalar Dependencias
+### 3. Instalar Dependencias
 - Asegúrate de tener instalado Android Studio con el SDK de Android y Gradle configurado.
 - Abre el proyecto en Android Studio y sincroniza las dependencias seleccionando la opción **"Sync Project with Gradle Files"** en la parte superior de la ventana.
 
-## 4. Ejecutar la Aplicación
+### 4. Ejecutar la Aplicación
 - Conecta un dispositivo Android físico con modo de desarrollador habilitado, o configura un emulador Android.
 - En Android Studio, selecciona el dispositivo desde el menú desplegable de dispositivos disponibles.
 - Haz clic en el botón **"Run"** (o presiona `Shift + F10`) para compilar y ejecutar la aplicación.
 
-## 5. Probar la Aplicación
+### 5. Probar la Aplicación
 - Regístrate o inicia sesión con Firebase Authentication.
 - Explora las pestañas de la aplicación (Pokédex, Pokémon Capturados y Ajustes) y utiliza sus funcionalidades.
 
@@ -73,7 +72,7 @@ cd pokemon-manager-app
 
 ## Conclusiones del Desarrollador
 
-El desarrollo de Pokémon Manager App ha sido un desafío enriquecedor. La integración de Firebase y Retrofit proporcionó una base sólida para la funcionalidad, mientras que el diseño de una experiencia de usuario intuitiva destacó como prioridad. Trabajar con API externas y el manejo de datos en tiempo real con Firestore ofrecieron aprendizajes clave sobre el diseño modular y eficiente de aplicaciones móviles.
+El desarrollo de **Tu Pokédex** ha sido una tarea realmente interesante. La integración de Firebase y Retrofit han sido esenciales en cuanto a la funcionalidad de la app, tratando de tener en cuenta el desarrollo de un diseño amigable con el usuario. Trabajar con API externas y el manejo de datos en tiempo real con Firestore así como aprender a navegar por su docuementación ha sido esencial para poder conseguir completar la aplicación.
 
 ## Capturas de pantalla
 
